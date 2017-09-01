@@ -116,6 +116,18 @@ syntax on
 set nobackup
 set nowritebackup
 
+"Fold programs
+setlocal foldmethod=syntax
+
+"Автодополнение скобок"
+ino " ""<left>
+ino ' ''<left>
+ino ( ()<left>
+ino [ []<left>
+ino { {}<left>
+ino {<CR> {<CR>}<ESC>O
+ino {;<CR> {<CR>};<ESC>O
+
 "Открытие новых вкладок по Ctrl-T
 nmap <C-t> :tabnew<CR>
 "imap <C-t> <Esc>:tabnew<CR>a
@@ -315,10 +327,4 @@ Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()						 " required
 filetype plugin indent on
 
-ino " ""<left>
-ino ' ''<left>
-ino ( ()<left>
-ino [ []<left>
-ino { {}<left>
-ino {<CR> {<CR>}<ESC>O
-ino {;<CR> {<CR>};<ESC>O
+
