@@ -1,0 +1,264 @@
+%==============================================================================
+% MustHave strings in file
+%==============================================================================
+
+\documentclass[12pt, a4paper, oneside]{report}	% {article|letter|report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1, T2A]{fontenc}
+\usepackage[english, russian]{babel}
+
+
+%==============================================================================
+% Page properties
+%==============================================================================
+
+\textheight=28cm			% высота текста A4
+\textwidth=16cm				% ширина текста A4
+\oddsidemargin=0pt			% отступ от левого края
+\topmargin=0cm			% отступ от верхнего края
+\parindent=0pt				% абзацный отступ
+\parskip=0pt				% интервал между абзацами
+\tolerance=2000				% терпимость к "жидким" строкам
+\flushbottom				% выравнивание высоты страниц
+\setcounter{secnumdepth}{0}	% секции без нумерации
+
+
+%==============================================================================
+% Footer and header
+%==============================================================================
+% For first page
+\fancypagestyle{firststyle} %новый стиль
+{
+	\fancyfootoffset[R]{-12cm} %так можно регулировать ширину колонтитула
+	% ...
+	\renewcommand{\footrulewidth}{0.3 mm} %толщина отделяющей полоски снизу
+	\renewcommand{\headrulewidth}{0.3 mm} %толщина отделяющей полоски сверху
+}
+
+\begin{document}
+\thispagestyle{firststyle}
+
+
+
+\usepackage{fancybox, fancyhdr}
+
+\pagestyle{fancy}
+
+%\fancyhead{} % Clear the header
+
+%E: Even page (чётная страница)
+%O: Odd page (нечётная страница)
+%L: Left field (левое поле)
+%C: Center field (цетральное поле)
+%R: Right field  (правое поле)
+%H: Header  (верхний колонтитул)
+%F: Footer   (нижний колонтитул)
+\fancyhead[*]{}
+\fancyfoot[*]{}
+
+% Delete the line of header/footer
+\renewcommand{\headrulewidth}{0pt}
+
+
+%==============================================================================
+% Math
+%==============================================================================
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Equations
+\begin{equation}\label{name}
+	%...
+\end{equation}
+
+% References
+(\ref{name})
+
+%Russian text in the equation
+\text{}
+
+\begin{eqnarray}
+	%long string of equation
+	%or many lines
+\end{eqnarray}
+
+%Systems
+$\begin{cases}
+	4x + 3y = 6\\
+	6x - 5y + 29= 0
+\end{cases}$
+
+
+%==============================================================================
+% Symbols
+%==============================================================================
+
+%Detect the hand written symbol
+%http://detexify.kirelabs.org/classify.html
+
+\circ %Grad symbol
+\times %MxN
+
+%Barckets
+(\big (\Big (\bigg (\Bigg
+
+
+%==============================================================================
+% Enumerate synbols
+%==============================================================================
+
+\usepackage{enumitem}
+
+% 1) 2) etc.
+\begin{enumerate}[label=\arabic*)]
+
+% a) b) etc.
+\begin{enumerate}[label=\alph*)]
+
+
+%==============================================================================
+% Numerate pages
+%==============================================================================
+
+% Format {\No of Chapter - \No of page}
+\usepackage[auto]{chappg}
+
+
+
+%==============================================================================
+% Epigraphes
+%==============================================================================
+
+\usepackage{epigraph}
+\epigraph{\textit{The greatest difficulties lie where we are not looking for them.}}
+{-- Johann Wolfgang von Goethe}
+
+
+
+%==============================================================================
+% Table Content
+%==============================================================================
+
+\renewcommand\contentsname{Оглавление} %%% renaming the Table of Contents
+
+%arabic|alpha|roman
+\renewcommand{\thechapter}{\arabic{chapter}.} %Add point after Section
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}.}
+
+
+%==============================================================================
+% Tables
+%==============================================================================
+
+%\usepackage{longtable} %for multipage tables
+%longtable instead of table
+%h < h! < H
+%pH - on new page
+%th - on top of page
+%bh - on bottom of page
+\begin{table}[h]\caption{Name of table}\label{name}
+	\begin{tabular}{|r|c{0.7\linewidth}|l|} % 70\% of page width
+		1 & 2 3 \\
+
+		% Union of two columns
+		\multicolumn{2}{|c|}{Результаты измерений} & 3 \\
+		\multirow{}{}
+	\end{tabular}
+\end{table}
+
+
+% Line between rows
+\hline
+
+% Line in the rows
+\cline{fromRow-tillRow}
+
+
+%Additional vertical space
+\\[1cm]
+
+
+% Rotate on 90 degrees
+\rotate{90}{smt}
+
+
+%==============================================================================
+% Chemistry chemfig
+%==============================================================================
+
+\usepackage{chemfig}
+
+%\chemfig{<atom1><bond type>[<angle>,<coeff>,<tikz code>]<atom2>}
+% coeff - the coefficient for multiplying the bond length
+
+%Angles are counterclockwise:
+% 0 = 0
+% 1 = 45
+% 2 = 90
+% 3 = 135
+% 4 = 180
+% 5 = 225
+% 6 = 270
+% 7 = 315
+
+% Bonds
+%\chemfig{A-B} - single
+%\chemfig{A=B} - double
+%\chemfig{A~B} - triple
+%\chemfig{A>B} - black from left to right
+%\chemfig{A<B} - black from right to left
+%\chemfig{A>:B} - pipes
+%\chemfig{A<:B} - pipes
+%\chemfig{A>|B} - white
+%\chemfig{A<|B} - white
+
+\chemfig{A-[1]B-[7]C}
+
+% Ring
+\chemfig{A*6(-B-C-D-E-F-)}
+\chemfig{*6(=-=-=-)}
+\chemfig{**5(------)}
+
+% Opened ring
+\chemfig{A*5(-B=C-D)}
+
+% Ion
+%^{-}
+%^{\ominus}
+
+
+%==============================================================================
+% Chemistry mhchem
+%==============================================================================
+
+\usepackage[version=4]{mhchem}
+%\ce{something}
+
+\ce{SO4^2-}
+\ce{NO3-}
+\ce{AgCl2-}
+\ce{^{227}_{90}Th+}
+\ce{[AgCl2]-}
+\ce{RNO2^{-.}}
+\ce{$\mu\hyphen$Cl}
+
+%- - single bond
+%= - double bond
+%# - triple bond (\bond{#})
+% or
+\ce{A\sbond B\dbond C\tbond D}
+
+% v => arrow down
+% ^ => arrow up
+% -> => arrow right
+% <- => arrow left
+% <=> => double side arrow
+% <-> => double side arrow from one line
+% ->[\alpha][\beta] => \a upon the arrow \b down the arrow
+% ->T[text]
+% ->C[chemical]
+
+% * or . => \cdot
+
