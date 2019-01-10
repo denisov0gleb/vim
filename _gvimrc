@@ -10,6 +10,7 @@ autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m
 "Вывод положения в тексте 
 set ruler
 
+""
 "Move Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
 
@@ -174,14 +175,15 @@ scriptencoding utf-8
 "set foldcolumn=1
 
 "Автоматическое приведение исполняемости, если есть первая строка
-function ModeChange()
+function MakeExecutableFunc()
 	if getline(1) =~ "^#!"
 		if getline(1) =~ "bin/"
 			silent !chmod a+x <afile>
 		endif
 	endif
 endfunction
-au BufWritePost * call ModeChange()
+
+au BufWritePost * call MakeExecutableFunc()
 
 " Указание скрытых символов
 set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
@@ -227,13 +229,13 @@ set laststatus=2
 "------------------------------------------------------------------------------------
 "Open help file for Vim
 "nmap <silent> <C-h> :40vs $HOME/vimfiles/help/vimhelp.txt<cr>
-nmap <C-h> :call HelpFiles()<CR>
+nmap <C-h> :call MyHelpFiles()<CR>
 
-function HelpVim()
+function MyHelpVim()
 	:40vs $HOME/vimfiles/help/vimhelp.vim
 endfunction
 
-function HelpFiles()
+function MyHelpFiles()
 	if (&ft == 'tex')
 		:40vs $HOME/vimfiles/help/texhelp.tex
 	elseif (&ft == 'vim')
@@ -323,7 +325,7 @@ command LaTeX execute "write | !pdflatex %"
 nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
 command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 
-command HELP call HelpVim()
+command HELP call MyHelpVim()
 
 command BUILDOPENCV execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildOpenCV.bat" % & pause'
 
@@ -345,7 +347,11 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-commentary'
 Plug 'matze/vim-move'
 
-Plug 'godlygeek/tabular'
+"Plug 'godlygeek/tabular'
+"Plug 'jlanzarotta/bufexplorer'
+"Plug 'vim-scripts/taglist.vim'
+"Plug 'mbbill/undotree'
+"Plug 'tpope/vim-fugitive'
 
 " Initialize plugin system
 call plug#end()

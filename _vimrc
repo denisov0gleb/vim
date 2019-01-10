@@ -1,22 +1,36 @@
-"" Last update: 01.09.2017 17:03
+"" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
 "------------------------------------------------------------------------------------
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
-autocmd! bufwritepre $MYVIMRC call setline(1, '"" Last update: '.strftime("%d.%m.%Y %H:%M"))
+autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m.%Y %H:%M"))
 
 "Вывод положения в тексте 
 set ruler
+
+""
+"Move Ctrl+J/K/H/L
+let g:move_key_modifier = 'C'
+
+"Comments
+autocmd FileType apache setlocal commentstring=#\ %s
 
 "Подсвечивание
 let python_hightlight_all=1
 set t_Co=256
 
+set background=light
 "Цветовая схема
 	"песочные
-colorscheme PapayaWhip
+	"colorscheme PapayaWhip
+
+colorscheme solarized
+"colorscheme wonka-light
+"colorscheme wonka-dark
+"colorscheme stellarized
+"colorscheme PaperColor
 	"тёмная
 "colorscheme spring-night
 	"серая
@@ -27,6 +41,8 @@ source $VIMRUNTIME/delmenu.vim
 set langmenu=ru_RU.UTF-8
 source $VIMRUNTIME/menu.vim
 
+"Change font
+set guifont=Consolas:h12
 
 "Вывод номеров строк
 set number
@@ -35,7 +51,7 @@ set number
 set noshowmode
 
 "Показывает текущую команду
-"set showcmd
+set showcmd
 
 "Автоматическое сохранение при вводе команд :next и :make
 set autowrite
@@ -48,6 +64,7 @@ set linebreak
 
 "Подчёркивание текущей строки
 set cursorline
+set cursorcolumn
 
 "Подсветка выражения, которое ищется в тексте
 set hlsearch
@@ -58,23 +75,33 @@ set nohlsearch
 "Прекращение создания swap-файлов
 set noswapfile
 
+"Перелистывание страницы за 6 строк до конца страницы
+set scrolloff=6
+
+"Split page below and right of the page
+set splitbelow
+set splitright
+
+"Cd to the D disk
+"cd D:/Others
+
 "Открытие файлов формата .pdf командой :Rpdf
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
 
 "Автодополнение
-abbr imp import
-abbr #i #include
-abbr #d #define
-abbr dou double
-abbr fl float
-abbr pr print
-abbr raw raw_input(
-abbr \i \item
-abbr \b \begin{
-abbr \e \end{
-abbr \u \underline{\hspace{2cm}}
-abbr \s {\slash}
+"abbr imp import
+"abbr #i #include
+"abbr #d #define
+"abbr dou double
+"abbr fl float
+"abbr pr print
+"abbr raw raw_input(
+"abbr \i \item
+"abbr \b \begin{
+"abbr \e \end{
+"abbr \u \underline{\hspace{2cm}}
+"abbr \s {\slash}
 
 "Ограничение длины строки
 set textwidth=100
@@ -86,14 +113,15 @@ set confirm
 set list
 
 "Во избежание лишней путаницы использовать системный буфер обмена вместо буфера Vi
-set clipboard=unnamed 
+set clipboard=unnamed
 
 "Подсвечивает все слова, которые совпадают со словом под курсором.
 "autocmd CursorMoved * silent! exe printf("match Search /\\<%s\\>/", expand('<cword>'))
 
 "Ширина табуляции
 set tabstop=2
-set softtabstop=2
+set softtabstop=0
+set shiftwidth=2
 "set expandtab " Замена в режиме Вставки табов на пробелы
 
 "Автоотступ
@@ -102,14 +130,27 @@ set autoindent
 "Выделение слова под курсором с возможностью его поиска
 set hlsearch
 
-"Number of spaces to use for auto indent
-set shiftwidth=2
-
 
 "Распознавание типов файлов
 filetype on
 filetype plugin on
 syntax on
+
+"Fold programs
+"setlocal foldmethod=syntax
+"Remember folding after closing
+augroup AutoSaveFolds
+	autocmd BufWinEnter *.* silent! loadview
+augroup END
+
+"Автодополнение скобок"
+ino " ""<left>
+ino ' ''<left>
+ino ( ()<left>
+ino [ []<left>
+ino { {}<left>
+ino {<CR> {<CR>}<ESC>O
+ino {;<CR> {<CR>};<ESC>O
 
 "Отключение резервных копий
 set nobackup
@@ -120,12 +161,12 @@ set nowritebackup
 "imap <C-t> <Esc>:tabnew<CR>a
 
 " Умный отступ: как у предыдущего + добавление/убирание для блоков
-"set smartindent
+set smartindent
 
 "Кодировка терминала
 set termencoding=utf-8
 set encoding=utf-8
-scriptencoding utf-8 
+scriptencoding utf-8
 
 " Вырубаем черточки на табах
 "set showtabline=0
@@ -133,11 +174,19 @@ scriptencoding utf-8
 " Колоночка, чтобы показывать плюсики для скрытия блоков кода:
 "set foldcolumn=1
 
+"Автоматическое приведение исполняемости, если есть первая строка
+function MakeExecutableFunc()
+	if getline(1) =~ "^#!"
+		if getline(1) =~ "bin/"
+			silent !chmod a+x <afile>
+		endif
+	endif
+endfunction
+
+au BufWritePost * call MakeExecutableFunc()
 
 " Указание скрытых символов
-"set listchars=tab:▸\ ,precedes:«,extends:»,trail:■ ",eol:¶,
-"set listchars=eol:~,tab:>.,trail:~,extends:>,precedes:<,space:_
-set listchars=eol:~,tab:>>,trail:~,extends:>,precedes:<,eol:¶,
+set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
 
 
 "Включение Backspace
@@ -145,6 +194,8 @@ set backspace=indent,eol,start
 
 " Не переводить пробелы в табуляции
 set noexpandtab
+set copyindent
+set preserveindent
 retab!
 
 
@@ -157,18 +208,50 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 " Show tabs that are not at the start of a line:
 match ExtraWhitespace /[^\t]\zs\t\+/
 " Show spaces used for indenting (so you use only tabs for indenting).
-match ExtraWhitespace /^\t*\zs \+/
+"match ExtraWhitespace /^\t*\zs \+/
 
+" Ввод команд в русской раскладке
+set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 
+" Проверка орфографии
+set spell spelllang=ru,en
+
+set selection=inclusive
+
+set laststatus=2
 "------------------------------------------------------------------------------------
 "####################################################################################
 "------------------------------------------------------------------------------------
 
 
+"------------------------------------------------------------------------------------
+" Help files for different types
+"------------------------------------------------------------------------------------
+"Open help file for Vim
+"nmap <silent> <C-h> :40vs $HOME/vimfiles/help/vimhelp.txt<cr>
+nmap <C-h> :call MyHelpFiles()<CR>
+
+function MyHelpVim()
+	:40vs $HOME/vimfiles/help/vimhelp.vim
+endfunction
+
+function MyHelpFiles()
+	if (&ft == 'tex')
+		:40vs $HOME/vimfiles/help/texhelp.tex
+	elseif (&ft == 'vim')
+		:40vs $HOME/vimfiles/help/vimhelp.vim
+	elseif (&ft == 'c')
+		:40vs $HOME/vimfiles/help/chelp.c
+	endif
+endfunction
 
 "------------------------------------------------------------------------------------
 " Шаблоны для файлов и их настройка
 "------------------------------------------------------------------------------------
+
+au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
+au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
+au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
 
 "au BufNewFile *.tex r ~/.vim/skeleton.tex
 "au BufNewFile *.py silent! r ~/.vim/skeleton.py
@@ -191,28 +274,28 @@ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,
 
 function! SuperCleverTab()
 	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-		return "\<Tab>"
+		return "\<C-p>"
 	else
 		return "\<C-p>"
 	endif
 endfunction
-
-inoremap <C-Right> <C-R>=SuperCleverTab()<cr>
+"inoremap <C-Right> <C-R>=SuperCleverTab()<cr>
+inoremap <C-Space> <C-R>=SuperCleverTab()<cr>
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Nerd Tree and Comment
+" Nerd Tree
 "------------------------------------------------------------------------------------
 
 "Открытие/закрытие файлового дерева NERD_Tree (Ctrl-N)
-nmap <C-N> :NERDTree<cr>
-vmap <C-N> <esc>:NERDTree<cr>i
-imap <C-N> <esc>:NERDTree<cr>i
+nmap <C-T> :NERDTree<cr>
+vmap <C-T> <esc>:NERDTree<cr>i
+imap <C-T> <esc>:NERDTree<cr>i
 
-nmap <C-N>q :NERDTreeClose<cr>
-vmap <C-N>q <esc>:NERDTreeClose<cr>i
-imap <C-N>q <esc>:NERDTreeClose<cr>i
+nmap <C-T>q :NERDTreeClose<cr>
+vmap <C-T>q <esc>:NERDTreeClose<cr>i
+imap <C-T>q <esc>:NERDTreeClose<cr>i
 
 "Установление курсора по центру. не работает ???
 let g:NERDTreeAutoCenter=1
@@ -232,76 +315,43 @@ let g:NERDTreeWinSize=36
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "------------------------------------------------------------------------------------
-" Умное комментирование NERD-commenter
-" Add spaces after comment delimiters by default
-"let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
-"let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-"let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
-"let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
-"autocmd FileType C let g:NERDCustomDelimiters = { 'c': { 'left': '/*','right': '*/' } }
-
-"autocmd FileType python let g:NERDCustomDelimiters = { 'c': { 'left': '#', 'right': '' } }
-
-"autocmd FileType tex let g:NERDCustomDelimiters = { 'c': { 'left': '%', 'right': '' } }
-"------------------------------------------------------------------------------------
-
-"------------------------------------------------------------------------------------
-" Syntastic
-"------------------------------------------------------------------------------------
-"
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_enable_signs=1
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_quiet_messages = { 'regex': 'W191' }
-
-
-"------------------------------------------------------------------------------------
 " Внутренние команды для компиляции
 "------------------------------------------------------------------------------------
 
-"command LaTeX execute "write | !pdflatex %"
+command LaTeX execute "write | !pdflatex %"
 "command Java execute "write | !javac %"
-command Python execute "!python.exe %"
-nmap <C-P> :Python<cr>
-"------------------------------------------------------------------------------------
 
-set nocompatible							" be iMproved, required
-filetype off									" required
+"LÖVE
+nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
+command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 
-"------------------------------------------------------------------------------------
-" Vim-Airline
-"------------------------------------------------------------------------------------
+command HELP call MyHelpVim()
 
-set laststatus=2
-let g:airline_detect_paste=1
-let g:airline_theme='dark'
+command BUILDOPENCV execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildOpenCV.bat" % & pause'
 
-let g:airline_left_sep = '>'
-let g:airline_right_sep = '>'
+command BUILD execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildC.bat" % & pause'
+
+command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildArduino.bat" % & pause'
+
+command EXE execute '!start cmd /c %:r.exe & pause'
 
 
-"Vundle plugin installer
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
-call vundle#begin('$HOME/vimfiles/bundle/')
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/vimfiles/plugged')
 
-call vundle#end()						 " required
-filetype plugin indent on
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-commentary'
+Plug 'matze/vim-move'
+
+"Plug 'godlygeek/tabular'
+"Plug 'jlanzarotta/bufexplorer'
+"Plug 'vim-scripts/taglist.vim'
+"Plug 'mbbill/undotree'
+"Plug 'tpope/vim-fugitive'
+
+" Initialize plugin system
+call plug#end()
