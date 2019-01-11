@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"------------------------------------------------------------------------------------
+"" Last update: 11.01.2019 21:29
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -10,7 +10,6 @@ autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m
 "Вывод положения в тексте 
 set ruler
 
-""
 "Move Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
 
@@ -23,13 +22,13 @@ set t_Co=256
 
 set background=light
 "Цветовая схема
-	"песочные
-	"colorscheme PapayaWhip
+"песочные
+"colorscheme PapayaWhip
 
-colorscheme solarized
+"colorscheme solarized
 "colorscheme wonka-light
 "colorscheme wonka-dark
-"colorscheme stellarized
+colorscheme stellarized
 "colorscheme PaperColor
 	"тёмная
 "colorscheme spring-night
@@ -336,22 +335,44 @@ command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/b
 command EXE execute '!start cmd /c %:r.exe & pause'
 
 
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/vimfiles/plugged')
+"------------------------------------------------------------------------------------
+" Vundle plugin manager
+"------------------------------------------------------------------------------------
 
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 " On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-commentary'
-Plug 'matze/vim-move'
+Plugin 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plugin 'itchyny/lightline.vim'
+Plugin 'tpope/vim-commentary'
+Plugin 'matze/vim-move'
 
-"Plug 'godlygeek/tabular'
+Plugin 'godlygeek/tabular'
 "Plug 'jlanzarotta/bufexplorer'
 "Plug 'vim-scripts/taglist.vim'
 "Plug 'mbbill/undotree'
 "Plug 'tpope/vim-fugitive'
 
-" Initialize plugin system
-call plug#end()
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
