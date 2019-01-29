@@ -1,16 +1,78 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"------------------------------------------------------------------------------------
+"" Last update: 29.01.2019 13:55
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
 autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m.%Y %H:%M"))
 
+
+"------------------------------------------------------------------------------------
+" Vundle plugin manager
+"------------------------------------------------------------------------------------
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/vimfiles/bundle/Vundle.vim
+call vundle#begin('~/vimfiles/bundle')
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+
+Plugin 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plugin 'itchyny/lightline.vim'
+
+"gcc to (un)comment
+Plugin 'tpope/vim-commentary'
+
+"Ctrl + h/j/k/l in visual mode
+Plugin 'matze/vim-move'
+
+"visual mode :Tabular /symbol
+Plugin 'godlygeek/tabular'
+
+" :UndotreeToggle
+Plugin 'mbbill/undotree'
+
+" :TlistOpen or :TlistToggle
+Plugin 'vim-scripts/taglist.vim'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+
+"Plug 'jlanzarotta/bufexplorer'
+"Plug 'vim-scripts/taglist.vim'
+
+"------------------------------------------------------------------------------------
+
+
 "Вывод положения в тексте 
 set ruler
 
-""
 "Move Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
 
@@ -26,7 +88,8 @@ set background=light
 	"песочные
 	"colorscheme PapayaWhip
 
-colorscheme solarized
+colorscheme monokai
+"colorscheme solarized
 "colorscheme wonka-light
 "colorscheme wonka-dark
 "colorscheme stellarized
@@ -336,22 +399,13 @@ command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/b
 command EXE execute '!start cmd /c %:r.exe & pause'
 
 
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/vimfiles/plugged')
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-commentary'
-Plug 'matze/vim-move'
-
-"Plug 'godlygeek/tabular'
-"Plug 'jlanzarotta/bufexplorer'
-"Plug 'vim-scripts/taglist.vim'
-"Plug 'mbbill/undotree'
-"Plug 'tpope/vim-fugitive'
-
-" Initialize plugin system
-call plug#end()
+"------------------------------------------------------------------------------------
+" Taglist Plugin
+"------------------------------------------------------------------------------------
+let Tlist_Auto_Open           = 1
+let Tlist_Auto_Highlight_Tag  = 1
+let Tlist_Process_File_Always = 1
+let Tlist_Use_Right_Window    = 1 "Vertical spliting
+let Tlist_WinWidth            = 80
+let Tlist_Compact_Format      = 1 "Reduce empty lines
+let Tlist_Show_Menu           = 1
