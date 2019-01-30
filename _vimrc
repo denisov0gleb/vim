@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 30.01.2019 10:58
+"" Last update: 30.01.2019 12:32
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -17,6 +17,9 @@ filetype off                  " required
 
 "Kill GUI toolbar
 set guioptions-=T 
+
+"Set GUI font:
+set guifont=DejaVu_Sans_Mono:h12
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -48,6 +51,8 @@ Plugin 'mbbill/undotree'
 
 " :TlistOpen or :TlistToggle
 Plugin 'vim-scripts/taglist.vim'
+
+Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -106,9 +111,6 @@ colorscheme monokai
 source $VIMRUNTIME/delmenu.vim
 set langmenu=ru_RU.UTF-8
 source $VIMRUNTIME/menu.vim
-
-"Change font
-set guifont=Consolas:h12
 
 "Вывод номеров строк
 set number
