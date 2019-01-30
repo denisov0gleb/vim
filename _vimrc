@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 30.01.2019 12:32
+"" Last update: 30.01.2019 13:41
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -53,6 +53,9 @@ Plugin 'mbbill/undotree'
 Plugin 'vim-scripts/taglist.vim'
 
 Plugin 'airblade/vim-gitgutter'
+
+" :Hexmode
+Plugin 'fidian/hexmode'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
