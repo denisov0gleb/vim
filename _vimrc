@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 29.01.2019 13:55
+"" Last update: 30.01.2019 10:58
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -14,6 +14,9 @@ autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
+
+"Kill GUI toolbar
+set guioptions-=T 
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
