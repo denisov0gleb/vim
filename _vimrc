@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 30.01.2019 13:41
+"" Last update: 28.02.2019 10:33
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ filetype off                  " required
 set guioptions-=T 
 
 "Set GUI font:
-set guifont=DejaVu_Sans_Mono:h12
+set guifont=DejaVu_Sans_Mono:h14
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -37,10 +37,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plugin 'itchyny/lightline.vim'
 
-"gcc to (un)comment
-Plugin 'tpope/vim-commentary'
-
-"Ctrl + h/j/k/l in visual mode
+"Ctrl + h/j/k/l
 Plugin 'matze/vim-move'
 
 "visual mode :Tabular /symbol
@@ -56,6 +53,8 @@ Plugin 'airblade/vim-gitgutter'
 
 " :Hexmode
 Plugin 'fidian/hexmode'
+
+Plugin 'scrooloose/nerdcommenter'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -79,7 +78,8 @@ filetype plugin indent on    " required
 "Plug 'vim-scripts/taglist.vim'
 
 "------------------------------------------------------------------------------------
-
+"Clear registers
+command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
 
 "Вывод положения в тексте 
 set ruler
@@ -286,6 +286,7 @@ set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячс�
 
 " Проверка орфографии
 set spell spelllang=ru,en
+set spellfile=~/vimfiles/my-spelling.add
 
 set selection=inclusive
 
@@ -360,13 +361,13 @@ inoremap <C-Space> <C-R>=SuperCleverTab()<cr>
 "------------------------------------------------------------------------------------
 
 "Открытие/закрытие файлового дерева NERD_Tree (Ctrl-N)
-nmap <C-T> :NERDTree<cr>
-vmap <C-T> <esc>:NERDTree<cr>i
-imap <C-T> <esc>:NERDTree<cr>i
+nmap <C-N> :NERDTree<cr>
+vmap <C-N> <esc>:NERDTree<cr>i
+imap <C-N> <esc>:NERDTree<cr>i
 
-nmap <C-T>q :NERDTreeClose<cr>
-vmap <C-T>q <esc>:NERDTreeClose<cr>i
-imap <C-T>q <esc>:NERDTreeClose<cr>i
+nmap <C-N>q :NERDTreeClose<cr>
+vmap <C-N>q <esc>:NERDTreeClose<cr>i
+imap <C-N>q <esc>:NERDTreeClose<cr>i
 
 "Установление курсора по центру. не работает ???
 let g:NERDTreeAutoCenter=1
