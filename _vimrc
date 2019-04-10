@@ -1,12 +1,15 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 28.02.2019 10:33
+"" Last update: 10.04.2019 10:35
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
 autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m.%Y %H:%M"))
 
+
+"Set GUI font:
+set guifont=DejaVu_Sans_Mono:h14
 
 "------------------------------------------------------------------------------------
 " Vundle plugin manager
@@ -17,9 +20,6 @@ filetype off                  " required
 
 "Kill GUI toolbar
 set guioptions-=T 
-
-"Set GUI font:
-set guifont=DejaVu_Sans_Mono:h14
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -56,6 +56,13 @@ Plugin 'fidian/hexmode'
 
 Plugin 'scrooloose/nerdcommenter'
 
+
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -80,6 +87,16 @@ filetype plugin indent on    " required
 "------------------------------------------------------------------------------------
 "Clear registers
 command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
+
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 
 "Вывод положения в тексте 
 set ruler
