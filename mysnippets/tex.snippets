@@ -1,0 +1,42 @@
+#version 1
+#PREAMBLE
+snippet student
+	\\documentclass[12pt, a4paper, oneside]{article}	% {article|letter|report}
+
+	\\usepackage[utf8]{inputenc}
+	\\usepackage[T1, T2A]{fontenc}
+	\\usepackage[english, russian]{babel}
+	\\usepackage[warn]{mathtext}
+	\\usepackage{amsmath}
+	%\\usepackage{amsfonts}
+	\\usepackage{amssymb}
+
+	\\usepackage{graphicx}
+
+	\\graphicspath{ {/}}
+	%\\usepackage[version=4]{mhchem}
+	\\usepackage{enumerate}
+	\\usepackage{fancybox, fancyhdr}
+	\\fancyheadoffset[R]{0.05cm} %так можно регулировать ширину колонтитула
+
+	\\pagestyle{fancy}
+	\\fancyhead[L]{{\\small Подготовлено для ${1:name}, ${2:date}}}
+	\\fancyhead[R]{{\\small denisov0gleb@gmail.com}}
+
+	\\usepackage[left=25mm, top=20mm, right=20mm, bottom=20mm]{geometry}
+	%\\textheight=28cm			% высота текста A4
+	%\\textwidth=18cm				% ширина текста A4
+	%\\oddsidemargin=0pt			% отступ от левого края
+	%\\topmargin=0cm			% отступ от верхнего края
+	\\parindent=0pt				% абзацный отступ
+	\\parskip=0pt				% интервал между абзацами
+	\\tolerance=2000				% терпимость к "жидким" строкам
+	\\flushbottom				% выравнивание высоты страниц
+	\\setcounter{secnumdepth}{0}	% секции без нумерации
+
+	\\begin{document}
+		\\begin{enumerate}[1.] % \\marginpar{Д{\\slash}З}
+			${0}
+		\\end{enumerate}
+	\\end{document}
+endsnippet

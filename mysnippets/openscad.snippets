@@ -1,0 +1,56 @@
+#version 1
+#PREAMBLE
+snippet module
+module ${1}()
+{
+	${0}
+}
+endsnippet
+
+snippet moduleMove
+module ${1}(move = [0, 0, 0])
+{
+	${0}
+}
+endsnippet
+
+snippet cylC
+cylinder(d = ${1:dia}, h = ${2:height}, $fn=${3:300}, center=true);
+${0}
+endsnippet
+
+snippet coneC
+cylinder(d1 = ${1:dia1}, d2 = ${2:dia2}, h = ${3:height}, $fn=${4:300}, center=true);
+${0}
+endsnippet
+
+snippet cubeC
+cube([${1}, ${2}, ${3}], center=true);
+${0}
+endsnippet
+
+snippet translate
+translate([${1}, ${2}, ${3}]) ${0}
+endsnippet
+
+snippet rotate
+rotate([${1}, ${2}, ${3}]) ${0}
+endsnippet
+
+snippet scale
+slace([${1}, ${2}, ${3}]) ${0}
+endsnippet
+
+snippet difference
+difference()
+{
+	${0}
+}
+endsnippet
+
+snippet union
+union()
+{
+	${0}
+}
+endsnippet

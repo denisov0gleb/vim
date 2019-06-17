@@ -1,12 +1,11 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 10.04.2019 10:35
+"" Last update: 17.06.2019 14:23
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
 autocmd! bufwritepre $MYVIMRC call setline(3, '"" Last update: '.strftime("%d.%m.%Y %H:%M"))
-
 
 "Set GUI font:
 set guifont=DejaVu_Sans_Mono:h14
@@ -47,7 +46,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'mbbill/undotree'
 
 " :TlistOpen or :TlistToggle
-Plugin 'vim-scripts/taglist.vim'
+"Plugin 'vim-scripts/taglist.vim'
 
 Plugin 'airblade/vim-gitgutter'
 
@@ -62,6 +61,12 @@ Plugin 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+
+" LaTeX plugin
+"Plugin 'lervag/vimtex'
+
+Plugin 'tpope/vim-fugitive'
+Plugin 'junegunn/gv.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -96,6 +101,25 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsSnippetDirectories=["mysnippets"]
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
+
+" Настройка vim-tex
+
+"let mapleader = ","
+"let maplocalleader = ","
+
+"let g:tex_flavor='latex'
+
+"let g:vimtex_view_general_viewer = $HOME . '\pdfviewer\SumatraPDF\SumatraPDF.exe'
+
+"let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+"let g:vimtex_view_general_options_latexmk = '--unique'
+
+"set conceallevel=1
+"let g:tex_conceal='abdmg'
 
 
 "Вывод положения в тексте 
@@ -274,7 +298,9 @@ endfunction
 au BufWritePost * call MakeExecutableFunc()
 
 " Указание скрытых символов
-set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
+"set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
+set showbreak=↪
+set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
 
 
 "Включение Backspace
