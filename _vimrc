@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 28.02.2019 10:33
+"" Last update: 27.07.2019 22:52
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'mbbill/undotree'
 
 " :TlistOpen or :TlistToggle
-Plugin 'vim-scripts/taglist.vim'
+"Plugin 'vim-scripts/taglist.vim'
 
 Plugin 'airblade/vim-gitgutter'
 
@@ -394,8 +394,10 @@ command LaTeX execute "write | !pdflatex %"
 "command Java execute "write | !javac %"
 
 "LÖVE
-nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
-command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
+nmap <C-L> :!start "C:\Program Files\LOVE-11.2\love.exe" "%:p:h"<cr>
+command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE-11.2\love.exe" "%:p:h" --console'
+
+command LOVECONSOLE10  execute ':w' '!start "C:\Program Files\LOVE-10.2\love.exe" "%:p:h" --console'
 
 command HELP call MyHelpVim()
 
