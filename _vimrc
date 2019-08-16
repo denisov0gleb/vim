@@ -1,6 +1,6 @@
 "" Last update: 02.09.2017 23:50
 ":e $MYVIMRC
-"" Last update: 17.06.2019 14:23
+"" Last update: 16.08.2019 12:16
 " Общие настройки VIM
 "------------------------------------------------------------------------------------
 
@@ -104,23 +104,6 @@ let g:UltiSnipsEditSplit="vertical"
 
 let g:UltiSnipsSnippetDirectories=["mysnippets"]
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-
-
-" Настройка vim-tex
-
-"let mapleader = ","
-"let maplocalleader = ","
-
-"let g:tex_flavor='latex'
-
-"let g:vimtex_view_general_viewer = $HOME . '\pdfviewer\SumatraPDF\SumatraPDF.exe'
-
-"let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-"let g:vimtex_view_general_options_latexmk = '--unique'
-
-"set conceallevel=1
-"let g:tex_conceal='abdmg'
-
 
 "Вывод положения в тексте 
 set ruler
@@ -255,14 +238,17 @@ augroup AutoSaveFolds
 	autocmd BufWinEnter *.* silent! loadview
 augroup END
 
-"Автодополнение скобок"
+"Автодополнение скобок
 ino " ""<left>
 ino ' ''<left>
 ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
 ino {<CR> {<CR>}<ESC>O
-ino {;<CR> {<CR>};<ESC>O
+"ino {;<CR> {<CR>};<ESC>O
+
+"Добавление ; в режиме ввода
+inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
 
 "Отключение резервных копий
 set nobackup
@@ -314,7 +300,7 @@ retab!
 
 
 " Отображение лишних пробелов, переносов и табуляций
-highlight ExtraWhitespace ctermbg=yellow guibg=yellow
+highlight ExtraWhitespace ctermbg=white guibg=white
 " Show trailing whitespace:
 match ExtraWhitespace /\s\+$/
 " Show trailing whitespace and spaces before a tab:
