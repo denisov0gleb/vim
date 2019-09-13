@@ -1,4 +1,4 @@
-" Last update: 13.09.2019 12:39
+" Last update: 13.09.2019 13:53
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -231,6 +231,9 @@ set confirm
 
 
 set laststatus=2
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
 "------------------------------------------------------------------------------------
 
 
@@ -305,7 +308,7 @@ set spellfile=~/vimfiles/my-spelling.add
 " Цветовые решения и оформление VIM
 "------------------------------------------------------------------------------------
 "Set GUI font:
-set guifont=DejaVu_Sans_Mono:h14
+set guifont=DejaVu_Sans_Mono:h12
 
 "Подсвечивание
 let python_hightlight_all=1
