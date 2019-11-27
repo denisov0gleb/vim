@@ -1,4 +1,4 @@
-" Last update: 23.10.2019 17:21
+" Last update: 27.11.2019 13:57
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -533,3 +533,4 @@ command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/b
 
 command EXE execute '!start cmd /c %:r.exe & pause'
 "------------------------------------------------------------------------------------
+command VTerminal execute 'vert terminal'
