@@ -1,4 +1,4 @@
-" Last update: 11.09.2019 11:09
+" Last update: 03.01.2020 11:34
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -92,6 +92,9 @@ Plugin 'fidian/hexmode'
 
 Plugin 'scrooloose/nerdcommenter'
 
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 "------------------------------------------------------------------------------------
 Plugin 'ervandew/supertab'
 "------------------------------------------------------------------------------------
@@ -109,8 +112,10 @@ Plugin 'SirVer/ultisnips'
 "------------------------------------------------------------------------------------
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-f>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
