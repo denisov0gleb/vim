@@ -1,9 +1,8 @@
-" Last update: 27.11.2019 13:57
+" Last update: 03.01.2020 15:18
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
 autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.%Y %H:%M"))"
-
 
 "------------------------------------------------------------------------------------
 " Vundle plugin manager
@@ -93,6 +92,9 @@ Plugin 'fidian/hexmode'
 
 Plugin 'scrooloose/nerdcommenter'
 
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 "------------------------------------------------------------------------------------
 Plugin 'ervandew/supertab'
 "------------------------------------------------------------------------------------
@@ -110,8 +112,11 @@ Plugin 'SirVer/ultisnips'
 "------------------------------------------------------------------------------------
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
-let g:UltiSnipsJumpForwardTrigger="<c-f>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsListSnippets="<C-TAB>"
+let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+" let g:UltiSnipsJumpForwardTrigger="<c-f>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -213,9 +218,6 @@ set cursorcolumn
 "Подсветка выражения, которое ищется в тексте
 set hlsearch
 
-" Не перемещаться на следующее вхождение поиска
-nnoremap * *N
-
 "Отключение подсветки найденных выражений
 set nohlsearch
 
@@ -232,12 +234,15 @@ set textwidth=100
 "использовать диалоги вместо сообщений об ошибках
 set confirm
 
-
-set laststatus=2
+"не переходить на следующее вхождение поиска
+nnoremap * *N
 
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
+
+set laststatus=2
 "------------------------------------------------------------------------------------
+
 
 
 "------------------------------------------------------------------------------------
@@ -311,7 +316,7 @@ set spellfile=~/vimfiles/my-spelling.add
 " Цветовые решения и оформление VIM
 "------------------------------------------------------------------------------------
 "Set GUI font:
-set guifont=DejaVu_Sans_Mono:h12
+set guifont=DejaVu_Sans_Mono:h14
 
 "Подсвечивание
 let python_hightlight_all=1
@@ -343,6 +348,14 @@ set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
 "set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
 
 set selection=inclusive
+
+" Вырубаем черточки на табах
+"set showtabline=0
+
+nnoremap <C-Down> <C-W><C-J>
+nnoremap <C-Up> <C-W><C-K>
+nnoremap <C-Right> <C-W><C-L>
+nnoremap <C-Left> <C-W><C-H>
 "------------------------------------------------------------------------------------
 
 
@@ -376,6 +389,7 @@ set clipboard=unnamed
 "Выделение слова под курсором с возможностью его поиска
 set hlsearch
 "------------------------------------------------------------------------------------
+
 
 "------------------------------------------------------------------------------------
 " Автодополнение символов
@@ -432,7 +446,6 @@ inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
 "Открытие новых вкладок по Ctrl-T
 " nmap <C-t> :tabnew<CR>
 "imap <C-t> <Esc>:tabnew<CR>a
-
 "------------------------------------------------------------------------------------
 
 
@@ -448,12 +461,8 @@ inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
 augroup AutoSaveFolds
 	autocmd BufWinEnter *.* silent! loadview
 augroup END
-
-
 "------------------------------------------------------------------------------------
 
-" Вырубаем черточки на табах
-"set showtabline=0
 
 
 "------------------------------------------------------------------------------------
@@ -481,10 +490,13 @@ function MyHelpFiles()
 		:40vs $HOME/vimfiles/help/chelp.c
 	endif
 endfunction
+"------------------------------------------------------------------------------------
+
 
 "------------------------------------------------------------------------------------
 " Шаблоны для файлов и их настройка
 "------------------------------------------------------------------------------------
+autocmd BufRead,BufNewFile *.tex set filetype=tex
 
 au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
 au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
@@ -495,13 +507,12 @@ au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
 "au BufNewFile *.java silent! r ~/.vim/skeleton.java
 
 
-"Перед сохранением вырезаем пробелы на концах (только в .py, .tex файлах)
+"Перед сохранением вырезаем пробелы на концах (только в .py, .tex, .c файлах)
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 autocmd BufWritePre *.c normal m`:%s/\s\+$//e ``
 autocmd BufWritePre *.tex normal m`:%s/\s\+$//e ``
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-
 "Перед сохранением вырезаем пробелы в начале
-autocmd BufWritePre *.py, normal m`:%s/^\s\+ ``
+autocmd BufWritePre *.py normal m`:%s/^\s\+ ``
 autocmd BufWritePre *.c normal m`:%s/^\s\+ ``
 autocmd BufWritePre *.tex normal m`:%s/^\s\+ ``
 
@@ -517,11 +528,9 @@ autocmd BufWritePre *.tex normal m`:%s/^\s\+ ``
 command LaTeX execute "write | !pdflatex %"
 "command Java execute "write | !javac %"
 
-"LOVE
-nmap <C-L> :!start "C:\Program Files\LOVE-11.2\love.exe" "%:p:h"<cr>
-command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE-11.2\love.exe" "%:p:h" --console'
-
-command LOVECONSOLE10  execute ':w' '!start "C:\Program Files\LOVE-10.2\love.exe" "%:p:h" --console'
+"LÖVE
+nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
+command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 
 command HELP call MyHelpVim()
 
@@ -533,4 +542,6 @@ command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/b
 
 command EXE execute '!start cmd /c %:r.exe & pause'
 "------------------------------------------------------------------------------------
-command VTerminal execute 'vert terminal'
+
+
+command VTerminal :vs| :term ++curwin

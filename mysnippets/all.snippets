@@ -15,3 +15,38 @@ endsnippet
 snippet date
 `!v strftime("%H:%M %d.%m.%y")`
 endsnippet
+
+snippet makefile
+CC = gcc
+TARGET = ${1:main}
+
+ifeq ($(OS),Windows_NT) 
+	REMOVE = -del /f
+else
+	REMOVE = -rm -rf
+endif
+
+SOURCES = $(wildcard *.c)
+OBJECTS = $(SOURCES: .c = .o)
+
+.PHONY: all clean install uninstall
+
+all: $(TARGET)
+
+.c.o:
+	$(CC) -c $< -o $@
+
+$(TARGET): $(OBJECTS)
+	@echo "Compile for $(TARGET)"
+	$(CC) $(OBJECTS) -o $@
+
+install:
+	@echo "Installation!"
+
+uninstall:
+	@echo "Uninstal!"
+
+clean:
+	@echo "Remove all executable and object files!"
+	$(REMOVE) *.exe *.o $(TARGET)
+endsnippet
