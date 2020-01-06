@@ -1,4 +1,4 @@
-" Last update: 03.01.2020 11:34
+" Last update: 03.01.2020 15:18
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -112,8 +112,9 @@ Plugin 'SirVer/ultisnips'
 "------------------------------------------------------------------------------------
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsListSnippets="<C-TAB>"
+let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 " let g:UltiSnipsJumpForwardTrigger="<c-f>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
@@ -233,6 +234,11 @@ set textwidth=100
 "использовать диалоги вместо сообщений об ошибках
 set confirm
 
+"не переходить на следующее вхождение поиска
+nnoremap * *N
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
 
 set laststatus=2
 "------------------------------------------------------------------------------------
@@ -345,6 +351,11 @@ set selection=inclusive
 
 " Вырубаем черточки на табах
 "set showtabline=0
+
+nnoremap <C-Down> <C-W><C-J>
+nnoremap <C-Up> <C-W><C-K>
+nnoremap <C-Right> <C-W><C-L>
+nnoremap <C-Left> <C-W><C-H>
 "------------------------------------------------------------------------------------
 
 
@@ -485,6 +496,7 @@ endfunction
 "------------------------------------------------------------------------------------
 " Шаблоны для файлов и их настройка
 "------------------------------------------------------------------------------------
+autocmd BufRead,BufNewFile *.tex set filetype=tex
 
 au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
 au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py

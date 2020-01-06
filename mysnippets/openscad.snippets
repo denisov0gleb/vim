@@ -1,54 +1,54 @@
 #version 1
 #PREAMBLE
-snippet module
-module ${1}()
+snippet module "module" bA
+module ${1:name}()
 {
 	${0}
 }
 endsnippet
 
-snippet moduleMove
-module ${1}(move = [0, 0, 0])
+snippet modMove
+module ${1:name}(move = [0, 0, 0])
 {
 	${0}
 }
 endsnippet
 
-snippet cylC
+snippet cylC "cylinder" A
 cylinder(d = ${1:dia}, h = ${2:height}, $fn=${3:300}, center=true);
 ${0}
 endsnippet
 
-snippet coneC
+snippet coneC "cone" A
 cylinder(d1 = ${1:dia1}, d2 = ${2:dia2}, h = ${3:height}, $fn=${4:300}, center=true);
 ${0}
 endsnippet
 
-snippet cubeC
-cube([${1}, ${2}, ${3}], center=true);
+snippet cubeC "cube" A
+cube([${1:0}, ${2:0}, ${3:0}], center=true);
 ${0}
 endsnippet
 
-snippet translate
-translate([${1}, ${2}, ${3}]) ${0}
+snippet translate "translate" A
+translate([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet rotate
-rotate([${1}, ${2}, ${3}]) ${0}
+snippet rotate "rotate" A
+rotate([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet scale
-slace([${1}, ${2}, ${3}]) ${0}
+snippet scale "scale" A
+scale([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet difference
+snippet difference "difference" A
 difference()
 {
 	${0}
 }
 endsnippet
 
-snippet union
+snippet union "union" A
 union()
 {
 	${0}
