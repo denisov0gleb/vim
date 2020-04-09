@@ -1,4 +1,4 @@
-" Last update: 03.01.2020 15:18
+" Last update: 28.02.2020 16:17
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -12,7 +12,8 @@ set nocompatible							" be iMproved, required
 filetype off									" required
 
 "Kill GUI toolbar
-set guioptions-=T 
+" set guioptions-=T 
+set guioptions= "Отключаем панели прокрутки в GUI
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -197,7 +198,7 @@ command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i),
 set ruler
 
 "Вывод номеров строк
-set number
+set number relativenumber
 
 " Не отображает статусную строку
 set noshowmode
@@ -500,7 +501,7 @@ autocmd BufRead,BufNewFile *.tex set filetype=tex
 
 au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
 au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
-au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
+" au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
 
 "au BufNewFile *.tex r ~/.vim/skeleton.tex
 "au BufNewFile *.py silent! r ~/.vim/skeleton.py
