@@ -70,6 +70,21 @@ snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
+snippet der "f'(x)" iA
+${1:f}'(${2:x})$0
+endsnippet
+
+snippet fun "f(x)" iA
+${1:f}(${2:x})$0
+endsnippet
+
+snippet root "\square" iA
+\square{$1}$0
+endsnippet
+
+snippet * "\cdot" iA
+ \cdot $0
+endsnippet
 
 snippet sr "^2" iA
 ^2
@@ -81,10 +96,6 @@ endsnippet
 
 snippet td "superscript" iA
 ^{$1}$0
-endsnippet
-
-snippet * "cdot" iA
- \\cdot $0
 endsnippet
 
 snippet sin "sin" iA

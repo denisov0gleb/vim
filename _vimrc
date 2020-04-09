@@ -1,4 +1,4 @@
-" Last update: 02.04.2020 13:12
+" Last update: 28.02.2020 16:17
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -12,7 +12,8 @@ set nocompatible							" be iMproved, required
 filetype off									" required
 
 "Kill GUI toolbar
-set guioptions-=T 
+" set guioptions-=T 
+set guioptions= "Отключаем панели прокрутки в GUI
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -197,7 +198,7 @@ command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i),
 set ruler
 
 "Вывод номеров строк
-set number
+set number relativenumber
 
 " Не отображает статусную строку
 set noshowmode
@@ -501,7 +502,7 @@ autocmd BufRead,BufNewFile *.tex set filetype=tex
 
 au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
 au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
-au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
+" au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
 
 "au BufNewFile *.tex r ~/.vim/skeleton.tex
 "au BufNewFile *.py silent! r ~/.vim/skeleton.py
@@ -535,11 +536,11 @@ command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:
 
 command HELP call MyHelpVim()
 
-command BUILDOPENCV execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildOpenCV.bat" % & pause'
+command BUILDOPENCV execute '!start cmd /c "~/vimfiles/compiler/buildOpenCV.bat" % & pause'
 
-command BUILD execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildC.bat" % & pause'
+command BUILD execute '!start cmd /c "~/vimfiles/compiler/buildC.bat" % & pause'
 
-command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildArduino.bat" % & pause'
+command BUILDARDUINO execute '!start cmd /c "~/vimfiles/compiler/buildArduino.bat" % & pause'
 
 command EXE execute '!start cmd /c %:r.exe & pause'
 "------------------------------------------------------------------------------------
