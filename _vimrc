@@ -1,4 +1,4 @@
-" Last update: 03.01.2020 15:18
+" Last update: 02.04.2020 13:12
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -236,6 +236,7 @@ set confirm
 
 "не переходить на следующее вхождение поиска
 nnoremap * *N
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
