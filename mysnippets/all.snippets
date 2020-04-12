@@ -1,22 +1,36 @@
 #version 1
 #PREAMBLE
 
+# b - beginning of line
+# i - in-word expansion for the first word
+# w - inside the word
+# r - python regular expression
+# t - do not expand tabs
+# s - remove whitespaces from the right of snippet
+# m - remove all whitespaces form right
+# e - costom context snippet
+# A - triger autonatically
+
 #####################################
 #               DATES               #
 #####################################
-snippet today "today" iA
+snippet today "today" i
 `!v strftime("%d.%m.%y")`
 endsnippet
 
-snippet time "time" iA
+snippet time "time" i
 `!v strftime("%H:%M")`
 endsnippet
 
-snippet date "date" iA
+snippet date "date" i
 `!v strftime("%H:%M %d.%m.%y")`
 endsnippet
 
-snippet makefile "makefile" iA
+
+#####################################
+#               Progs               #
+#####################################
+snippet makefile "makefile" i
 CC = gcc
 TARGET = ${1:main}
 
@@ -49,4 +63,67 @@ uninstall:
 clean:
 	@echo "Remove all executable and object files!"
 	$(REMOVE) *.exe *.o $(TARGET)
+endsnippet
+
+#####################################
+#            Parenthesis            #
+#####################################
+snippet ( "Create a pair of ()" i
+(${1:${VISUAL}})$0
+endsnippet
+
+
+snippet [ "Create a pair of []" i
+[${1:${VISUAL}}]$0
+endsnippet
+
+
+snippet { "Create a pair of {}" i
+{${1:${VISUAL}}}$0
+endsnippet
+
+
+snippet < "Create a pair of <>" i
+<${1:${VISUAL}}>$0
+endsnippet
+
+
+snippet | "Create a pair of ||" i
+|${1:${VISUAL}}|$0
+endsnippet
+
+
+snippet ) "Create a pair of parenthesis and put cursor behind" i
+(${VISUAL})$0
+endsnippet
+
+
+snippet ] "Create a pair of square brackets and put cursor behind" i
+[${VISUAL}]$0
+endsnippet
+
+
+snippet } "Create a pair of {} around visual selection" i
+{
+	${VISUAL}
+}
+$0
+endsnippet
+
+
+snippet § "Create pair of $$" i
+$${1:${VISUAL}}$$0
+endsnippet
+
+
+snippet §§ "Create pair of $$" i
+$$${1:${VISUAL}}$$$0
+endsnippet
+
+
+#####################################
+#               TEXT                #
+#####################################
+snippet hello "hello world" i
+Hello world!$0
 endsnippet

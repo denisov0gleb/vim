@@ -35,6 +35,7 @@ Ctrl-w -- delete one word back
 Ctrl-u -- delete one line back
 Ctrl-r[number] -- insert from register [number]
 Ctrl-k -- insert special symbols
+Ctrl-r Ctrl-w -- insert word under cursor
 :[number]p -- print line [number]
 			-- % -- all
 			-- $ -- last line

@@ -1,4 +1,4 @@
-" Last update: 28.02.2020 16:17
+" Last update: 12.04.2020 16:09
 "------------------------------------------------------------------------------------
 
 "Перед сохранением .vimrc обновлять дату последнего изменения
@@ -12,8 +12,7 @@ set nocompatible							" be iMproved, required
 filetype off									" required
 
 "Kill GUI toolbar
-" set guioptions-=T 
-set guioptions= "Отключаем панели прокрутки в GUI
+set guioptions-=T 
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -113,8 +112,8 @@ Plugin 'SirVer/ultisnips'
 "------------------------------------------------------------------------------------
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
-let g:UltiSnipsListSnippets="<C-TAB>"
-let g:UltiSnipsJumpForwardTrigger="<TAB>"
+let g:UltiSnipsListSnippets="<C-S-TAB>"
+let g:UltiSnipsJumpForwardTrigger="<C-TAB>"
 let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 " let g:UltiSnipsJumpForwardTrigger="<c-f>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-b>"
@@ -123,7 +122,6 @@ let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 let g:UltiSnipsEditSplit="vertical"
 
 let g:UltiSnipsSnippetDirectories=["mysnippets"]
-"let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 "------------------------------------------------------------------------------------
 
 
@@ -198,7 +196,7 @@ command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i),
 set ruler
 
 "Вывод номеров строк
-set number relativenumber
+set number
 
 " Не отображает статусную строку
 set noshowmode
@@ -398,12 +396,12 @@ set hlsearch
 "------------------------------------------------------------------------------------
 
 "Автодополнение скобок
-ino " ""<left>
-ino ' ''<left>
-ino ( ()<left>
-ino [ []<left>
-ino { {}<left>
-ino {<CR> {<CR>}<ESC>O
+" ino \" \""<left>
+" ino ' ''<left>
+" ino ( ()<left>
+" ino [ []<left>
+" ino { {}<left>
+" ino {<CR> {<CR>}<ESC>O
 "ino {;<CR> {<CR>};<ESC>O
 
 "Добавление ; в режиме ввода в конец строки, если нажимается Enter
@@ -477,11 +475,11 @@ augroup END
 "------------------------------------------------------------------------------------
 "Open help file for Vim
 "nmap <silent> <C-h> :40vs $HOME/vimfiles/help/vimhelp.txt<cr>
-nmap <C-h> :call MyHelpFiles()<CR>
+" nmap <C-h> :call MyHelpFiles()<CR>
 
-function MyHelpVim()
-	:40vs $HOME/vimfiles/help/vimhelp.vim
-endfunction
+" function MyHelpVim()
+	" :40vs $HOME/vimfiles/help/vimhelp.vim
+" endfunction
 
 function MyHelpFiles()
 	if (&ft == 'tex')
@@ -500,8 +498,8 @@ endfunction
 "------------------------------------------------------------------------------------
 autocmd BufRead,BufNewFile *.tex set filetype=tex
 
-au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
-au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
+" au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
+" au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
 " au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
 
 "au BufNewFile *.tex r ~/.vim/skeleton.tex
@@ -527,20 +525,22 @@ autocmd BufWritePre *.tex normal m`:%s/^\s\+ ``
 " Внутренние команды для компиляции
 "------------------------------------------------------------------------------------
 
-command LaTeX execute "write | !pdflatex %"
+command LaTeX execute "write | !pdflatex -interaction=batchmode %"
+command LCLEAR execute "!del *.aux *.log"
+
 "command Java execute "write | !javac %"
 
 "LÖVE
 nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
 command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 
-command HELP call MyHelpVim()
+command HELP call MyHelpFiles()
 
-command BUILDOPENCV execute '!start cmd /c "~/vimfiles/compiler/buildOpenCV.bat" % & pause'
+command BUILDOPENCV execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildOpenCV.bat" % & pause'
 
-command BUILD execute '!start cmd /c "~/vimfiles/compiler/buildC.bat" % & pause'
+command BUILD execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildC.bat" % & pause'
 
-command BUILDARDUINO execute '!start cmd /c "~/vimfiles/compiler/buildArduino.bat" % & pause'
+command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildArduino.bat" % & pause'
 
 command EXE execute '!start cmd /c %:r.exe & pause'
 "------------------------------------------------------------------------------------

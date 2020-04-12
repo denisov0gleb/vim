@@ -1,6 +1,6 @@
 #version 1
 
-snippet for "for" bA
+snippet for "for" b
 for (int ${1:i} = ${2:0}; $1 < ${3:10}; $1++)
 {
 	${0:// Your code here};
@@ -21,11 +21,6 @@ int main(void)
 endsnippet
 
 
-snippet main
-int main(void)
-{
-	${1}
-=======
 snippet main "main" b
 int main(void)
 {
@@ -46,7 +41,7 @@ int main(int argc, char ** argv)
 endsnippet
 
 
-snippet while "while" bA
+snippet while "while" b
 while(${1:condition1})
 {
 	${0:// Code}
@@ -74,17 +69,7 @@ else
 endsnippet
 
 
-snippet stdio
-#include <stdio.h>
-endsnippet
-
-
-snippet intFunction
-int ${1}(${2})
-{
-	${0}
-=======
-snippet elif "elif" bA
+snippet elif "elif" b
 if (${1:condition1})
 {
 	${2:// Code 1}
@@ -96,7 +81,7 @@ else if (${3:condition2})
 endsnippet
 
 
-snippet stdio "stdio" bA
+snippet stdio "stdio" b
 #include <stdio.h>
 ${0}
 endsnippet
@@ -124,11 +109,6 @@ int ${1:name}(${2:void})
 endsnippet
 
 
-snippet fprintf
-fprintf(${1:stdout}, "${2:Hellow world!}\n");
-endsnippet
-
-
 snippet func "function" bA
 ${1:type} ${2:name}(${3:void})
 {
@@ -139,19 +119,19 @@ ${1:type} ${2:name}(${3:void})
 endsnippet
 
 
-snippet p "printf selected" b
+snippet p "printf selected" i
 printf("${1:${VISUAL:text}}");
 ${0}
 endsnippet
 
 
-snippet printf "default printf" bA
+snippet printf "default printf" i
 printf("${1:Hello world!}\n");
 ${0}
 endsnippet
 
 
-snippet fprintf "fprintf" bA
+snippet fprintf "fprintf" i
 fprintf(${1:stdout}, "${2:Hello world!}\n");
 ${0}
 endsnippet
@@ -170,4 +150,11 @@ struct
 {
 	${0:// Code}
 } ${1:name};
+endsnippet
+
+snippet ifndef "ifndef" b
+#ifndef ${1:SOME_DEFINE}
+#define $1
+$0
+#endif /* $1 */
 endsnippet

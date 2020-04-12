@@ -11,11 +11,27 @@
 %==============================================================================
 % Page properties
 %==============================================================================
+\usepackage{geometry}
+\geometry
+{
+	a4paper,
+	left=20mm,
+	right=20mm,
+	top=25mm,
+	bottom=20mm,
+	headheight=10pt,
+	footskip=20pt
+}
+
+ % or
 
 \textheight=28cm			% высота текста A4
 \textwidth=16cm				% ширина текста A4
 \oddsidemargin=0pt			% отступ от левого края
 \topmargin=0cm			% отступ от верхнего края
+
+
+
 \parindent=0pt				% абзацный отступ
 \parskip=0pt				% интервал между абзацами
 \tolerance=2000				% терпимость к "жидким" строкам
@@ -26,6 +42,9 @@
 %==============================================================================
 % Footer and header
 %==============================================================================
+
+\usepackage{fancybox, fancyhdr}
+
 % For first page
 \fancypagestyle{firststyle} %новый стиль
 {
@@ -38,28 +57,70 @@
 \begin{document}
 \thispagestyle{firststyle}
 
-
-
-\usepackage{fancybox, fancyhdr}
-
+% Example:
 \pagestyle{fancy}
+\fancyhead[L]{{\small Подготовлено для Игната, 08.04.20}}
+\fancyhead[R]{{\small denisov0gleb@gmail.com}}
 
 %\fancyhead{} % Clear the header
 
 %E: Even page (чётная страница)
 %O: Odd page (нечётная страница)
 %L: Left field (левое поле)
-%C: Center field (цетральное поле)
+%C: Center field (центральное поле)
 %R: Right field  (правое поле)
 %H: Header  (верхний колонтитул)
 %F: Footer   (нижний колонтитул)
 \fancyhead[*]{}
 \fancyfoot[*]{}
 
+\fancyfoot[C]{-~\thepage~-}
+
 % Delete the line of header/footer
 \renewcommand{\headrulewidth}{0pt}
 
 
+%==============================================================================
+% Styles
+%==============================================================================
+% italic
+\textit{italic}
+
+% special
+\emph{special}
+
+% Capital
+\textsc{capital}
+
+% bold
+\textbf{bold}
+
+% cross out words
+\usepackage{ulem}
+\sout{Wrong.} Correct.
+
+% colored text
+\usepackage{xcolor}
+\textcolor{red}{red text}
+
+% Correction on 
+\marginpar{Этот текст появится сбоку на полях.}
+
+{\large text}
+
+%or
+
+\begin{large}
+	some text
+\end{large}
+
+% text in color box
+\newcommand\marker[2]{{\fboxsep=0pt\colorbox{#1}{\strut #2}}}
+\marker[red]{text}
+
+%or simply but with additional spaces
+
+\colorbox{red!50}{ugly text}
 %==============================================================================
 % Math
 %==============================================================================
@@ -67,14 +128,18 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage[warn]{mathtext}
+
+% In-text equation:
+$ ... $
+
+% Centered equation:
+$$ ... $$
 
 % Equations
-\begin{equation}\label{name}
+\begin{equation}
 	%...
 \end{equation}
-
-% References
-(\ref{name})
 
 %Russian text in the equation
 \text{}
@@ -95,19 +160,70 @@ $\begin{cases}
 % Symbols
 %==============================================================================
 
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
 %Detect the hand written symbol
 %http://detexify.kirelabs.org/classify.html
 
-\circ %Grad symbol
-\times %MxN
+% Grad symbol:
+^\circ
 
-%Barckets
+%MxN:
+\times
+
+%Brackets
 (\big (\Big (\bigg (\Bigg
 
+% № in russian text:
+\usepackage{textcomp}
+
+\newcommand*{\No}{\textnumero}
+
+\No
+
+% /
+{\slash}
+
+% ...
+\ldots
+
 
 %==============================================================================
-% Enumerate synbols
+% References
 %==============================================================================
+\usepackage{hyperref}
+
+\label{name}
+
+% References
+\ref{name}
+
+% Turn the hyperlink off:
+% after \begin{document}
+\makeatletter
+\let\ref\@refstar
+\makeatother
+
+
+%==============================================================================
+% Graphics
+%==============================================================================
+\usepackage{graphicx}
+
+
+%==============================================================================
+% Enumerate symbols
+%==============================================================================
+\usepackage{enumerate}
+
+% 1. 2. etc.
+\begin{enumerate}[1.]
+
+% 1) 2) etc.
+\begin{enumerate}[1)]
+
+% OR
 
 \usepackage{enumitem}
 
@@ -182,6 +298,33 @@ $\begin{cases}
 
 % Rotate on 90 degrees
 \rotate{90}{smt}
+
+
+%==============================================================================
+% Tikz diagrams
+%==============================================================================
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+
+% Example:
+\newcommand{\ArrowL}{2,0}
+\begin{tikzpicture} [thick, node distance=2cm, text height=1.5ex, text depth=.25ex, auto]
+	\node (Ca) {\ce{Ca}};
+	\node[right of=Ca] (CaO) {\ce{CaO}};
+	\node[right of=CaO] (CaOH)  {\ce{Ca(OH)2}};
+	\node[right of=CaOH]  (CaSO) {\ce{CaSO4}};
+
+	\node[below of=Ca] (CaS) {\ce{CaS}};
+
+	\path[->] (Ca) edge (CaO);
+	\path[->] (CaO) edge (CaOH);
+	\path[->] (CaOH) edge (CaSO);
+	\path[->] (Ca) edge (CaS);
+	\path[->] (CaO) edge (CaS);
+	\path[->] (CaOH.240) edge (CaS.-1);
+	\path[<-] (CaOH) edge (CaS);
+
+\end{tikzpicture}
 
 
 %==============================================================================
