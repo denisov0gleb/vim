@@ -65,59 +65,83 @@ clean:
 	$(REMOVE) *.exe *.o $(TARGET)
 endsnippet
 
+
+snippet readme "README.md" i
+#${1:Big header}
+
+##ToDo:
+* **bold text**
+* *italic text*
+* [denisov0gleb](https://github.com/denisov0gleb)
+
+##Code:
+```
+int foo(void);
+```
+endsnippet
+
 #####################################
 #            Parenthesis            #
 #####################################
 snippet ( "Create a pair of ()" i
-(${1:${VISUAL}})$0
+(${1:${VISUAL}})
 endsnippet
 
 
 snippet [ "Create a pair of []" i
-[${1:${VISUAL}}]$0
+[${1:${VISUAL}}]
 endsnippet
 
 
 snippet { "Create a pair of {}" i
-{${1:${VISUAL}}}$0
+{${1:${VISUAL}}}
 endsnippet
 
 
 snippet < "Create a pair of <>" i
-<${1:${VISUAL}}>$0
+<${1:${VISUAL}}>
 endsnippet
 
 
 snippet | "Create a pair of ||" i
-|${1:${VISUAL}}|$0
+|${1:${VISUAL}}|
+endsnippet
+
+
+snippet " "Create a pair of """ i
+"${1:${VISUAL}}"
+endsnippet
+
+
+snippet ' "Create a pair of ''" i
+'${1:${VISUAL}}'
 endsnippet
 
 
 snippet ) "Create a pair of parenthesis and put cursor behind" i
-(${VISUAL})$0
+(${VISUAL})
 endsnippet
 
 
 snippet ] "Create a pair of square brackets and put cursor behind" i
-[${VISUAL}]$0
+[${VISUAL}]
 endsnippet
 
 
 snippet } "Create a pair of {} around visual selection" i
-{
-	${VISUAL}
-}
-$0
+	{
+		${1:${VISUAL}}
+	}
 endsnippet
 
 
 snippet § "Create pair of $$" i
-$${1:${VISUAL}}$$0
+$${1:${VISUAL}}$
 endsnippet
 
 
 snippet §§ "Create pair of $$" i
-$$${1:${VISUAL}}$$$0
+$$${1:${VISUAL}}$$
 endsnippet
 
 

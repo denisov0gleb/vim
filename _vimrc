@@ -1,7 +1,7 @@
-" Last update: 12.04.2020 16:09
+" Last update: 12.05.2020 15:08
 "------------------------------------------------------------------------------------
 
-"Перед сохранением .vimrc обновлять дату последнего изменения
+" Update the modification date on VIMRC before it is closed
 autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.%Y %H:%M"))"
 
 "------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 "------------------------------------------------------------------------------------
 
-"Открытие/закрытие файлового дерева NERD_Tree (Ctrl-N)
+" Open/close NERDTree window by Ctrl-N
 nmap <C-N> :NERDTree<cr>
 vmap <C-N> <esc>:NERDTree<cr>i
 imap <C-N> <esc>:NERDTree<cr>i
@@ -38,21 +38,21 @@ nmap <C-N>q :NERDTreeClose<cr>
 vmap <C-N>q <esc>:NERDTreeClose<cr>i
 imap <C-N>q <esc>:NERDTreeClose<cr>i
 
-"Установление курсора по центру. не работает ???
+" Set cursor at center
 let g:NERDTreeAutoCenter=1
 
-"Не отображать бинарные файлы Питона
+" Don't show binary files
 let NERDTreeIgnore=['\.pyc$']
 
-"Открывать его справа с шириной = 
+" Open NERDTree on the right side 
 let g:NERDTreeWinPos="right"
-let g:NERDTreeWinSize=36
+let g:NERDTreeWinSize=40
 
-"Автоматически открывать NERD с курсором на основном окне
+" Automatically open NERDTree with leaved cursor
 "autocmd VimEnter * NERDTree
 "autocmd VimEnter * wincmd p
 
-"Автоматическое закрытие NERD. если это последнее окно
+" Automatically closes NERDTree if it was the last one window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 "------------------------------------------------------------------------------------
 
@@ -99,10 +99,10 @@ let g:NERDSpaceDelims = 1
 Plugin 'ervandew/supertab'
 "------------------------------------------------------------------------------------
 "
-" Объединяет:
-" 						* простое \t
-" 						* Tab_Or_Complete функцию
-" 						* snippets от UltiSnips
+" Union of:
+" 						* simple \t
+" 						* Tab_Or_Complete function
+" 						* snippets from UltiSnips
 "------------------------------------------------------------------------------------
 
 
@@ -126,9 +126,14 @@ let g:UltiSnipsSnippetDirectories=["mysnippets"]
 
 
 "------------------------------------------------------------------------------------
-" Отображение статуса git
+" Show git status
 Plugin 'tpope/vim-fugitive'
 Plugin 'junegunn/gv.vim'
+
+" Rainbow parenthesises
+Plugin 'luochen1990/rainbow'
+let g:rainbow_active = 1
+
 "------------------------------------------------------------------------------------
 
 call vundle#end()						 " required
@@ -154,8 +159,8 @@ filetype plugin indent on		 " required
 
 
 "------------------------------------------------------------------------------------
-" Умное дополнение кода
-" Раньше использовал
+" Smart code autocompete
+" Used it earlier
 "------------------------------------------------------------------------------------
 
 function! SuperCleverTab()
@@ -170,7 +175,7 @@ endfunction
 "------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
-" Умное дополнение кода
+" Smart code autocompete
 "------------------------------------------------------------------------------------
 function! Tab_Or_Complete()
 	if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
@@ -190,50 +195,50 @@ command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i),
 
 
 "------------------------------------------------------------------------------------
-" Отображение статуса VIM
+" Show VIM status
 "------------------------------------------------------------------------------------
-"Вывод положения в тексте 
+" Position
 set ruler
 
-"Вывод номеров строк
+" Line numbers
 set number
 
-" Не отображает статусную строку
+" Don't show statusline
 set noshowmode
 
-"Показывает текущую команду
+" Shows current command
 set showcmd
 
-"Позволяет работать мышью
+" Working with a mouse
 "set mouse=a
 
 "Перенос по словам, а не по буквам
 set linebreak
 
-"Подчёркивание текущей строки
+" Underline current line
 set cursorline
 set cursorcolumn
 
-"Подсветка выражения, которое ищется в тексте
+" Coloring the searching words
 set hlsearch
 
-"Отключение подсветки найденных выражений
+" Turn off previous listed search words
 set nohlsearch
 
-"Перелистывание страницы за 6 строк до конца страницы
+" Scroll page before 6 lines
 set scrolloff=6
 
 "Split page below and right of the page
 set splitbelow
 set splitright
 
-"Ограничение длины строки
+" Max line width
 set textwidth=100
 
-"использовать диалоги вместо сообщений об ошибках
+" Use dialogs instead of error messages
 set confirm
 
-"не переходить на следующее вхождение поиска
+" Don't run to next search word
 nnoremap * *N
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
@@ -246,38 +251,32 @@ set laststatus=2
 
 
 "------------------------------------------------------------------------------------
-" Отступы и типы файлов
+" Indents and filetypes
 "------------------------------------------------------------------------------------
-
-"Ширина табуляции
 set tabstop=2
 set softtabstop=0
 set shiftwidth=2
-"set expandtab " Замена в режиме Вставки табов на пробелы
 
-"Автоотступ
-set autoindent
+" set autoindent
 
-"Распознавание типов файлов
 filetype on
 filetype plugin on
 syntax on
 
-" Умный отступ: как у предыдущего + добавление/убирание для блоков
 set smartindent
 
-" Не переводить пробелы в табуляции
+" I use \t instead of \s !!!
 set noexpandtab
 set copyindent
 set preserveindent
 retab!
 
 
-"Включение Backspace
+" Turn backspace on
 set backspace=indent,eol,start
 
 
-" Отображение лишних пробелов, переносов и табуляций
+" Show trailing \s and \t
 highlight ExtraWhitespace ctermbg=gray guibg=gray
 " Show trailing whitespace:
 match ExtraWhitespace /\s\+$/
@@ -291,66 +290,57 @@ match ExtraWhitespace /^\t*\zs \+/
 
 
 "------------------------------------------------------------------------------------
-" Кириллица
+" Cyrillic
 "------------------------------------------------------------------------------------
-"Кодировка терминала
 set termencoding=utf-8
 set encoding=utf-8
 scriptencoding utf-8
 
-" Отображение кириллицы в меню
+"Menu
 source $VIMRUNTIME/delmenu.vim
 set langmenu=ru_RU.UTF-8
 source $VIMRUNTIME/menu.vim
 
 
-" Ввод команд в русской раскладке
+" Russian keymaps in Normal Mode
 set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-" Проверка орфографии
+" Check spelling
 set spell spelllang=ru,en
 set spellfile=~/vimfiles/my-spelling.add
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Цветовые решения и оформление VIM
+" Colors and themes
 "------------------------------------------------------------------------------------
 "Set GUI font:
 set guifont=DejaVu_Sans_Mono:h14
 
-"Подсвечивание
 let python_hightlight_all=1
 set t_Co=256
 
 set background=light
-"Цветовая схема
-	"песочные
-	"colorscheme PapayaWhip
-
 colorscheme monokai
+"colorscheme PapayaWhip
 "colorscheme solarized
 "colorscheme wonka-light
 "colorscheme wonka-dark
 "colorscheme stellarized
 "colorscheme PaperColor
+"
 	"тёмная
 "colorscheme spring-night
 	"серая
 "colorscheme jay
 
-
-"Включение подсветки
 set list
 
-" Указание скрытых символов
+" Non-printing symbols
 set showbreak=↪
 set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
 "set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
 
 set selection=inclusive
-
-" Вырубаем черточки на табах
-"set showtabline=0
 
 nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>
@@ -360,19 +350,17 @@ nnoremap <C-Left> <C-W><C-H>
 
 
 "------------------------------------------------------------------------------------
-" Управление файлами
+" Files
 "------------------------------------------------------------------------------------
-"Автоматическое сохранение при вводе команд :next и :make
+" Autowrite after :make and :next
 set autowrite
-"
-"Прекращение создания swap-файлов
+
 set noswapfile
 
-"Отключение резервных копий
 set nobackup
 set nowritebackup
 
-"Автоматическое приведение исполняемости, если есть первая строка
+" Set executable on Unix
 function MakeExecutableFunc()
 	if getline(1) =~ "^#!"
 		if getline(1) =~ "bin/"
@@ -383,76 +371,71 @@ endfunction
 
 au BufWritePost * call MakeExecutableFunc()
 
-"Во избежание лишней путаницы использовать системный буфер обмена вместо буфера Vi
+"Use system clipboard
 set clipboard=unnamed
-
-"Выделение слова под курсором с возможностью его поиска
-set hlsearch
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Автодополнение символов
+" Auto
 "------------------------------------------------------------------------------------
 
-"Автодополнение скобок
+" Parenthesis
 " ino \" \""<left>
 " ino ' ''<left>
 " ino ( ()<left>
 " ino [ []<left>
 " ino { {}<left>
 " ino {<CR> {<CR>}<ESC>O
-"ino {;<CR> {<CR>};<ESC>O
+" ino {;<CR> {<CR>};<ESC>O
 
-"Добавление ; в режиме ввода в конец строки, если нажимается Enter
+" abbr imp import
+" abbr #i #include
+" abbr #d #define
+" abbr dou double
+" abbr fl float
+" abbr pr print
+" abbr raw raw_input(
+" abbr \i \item
+" abbr \b \begin{
+" abbr \e \end{
+" abbr \u \underline{\hspace{2cm}}
+" abbr \s {\slash}
+
+
+" Add ; to the end of line after <Enter>
 inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Хорошие, но не используемые идеи
+" Good not used ideas
 "------------------------------------------------------------------------------------
 
 "Cd to the D disk
 "cd D:/Others
 
-"Открытие файлов формата .pdf командой :Rpdf
+" Open .pdf with :Rpdf command
 "command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 "command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
 
-"Автодополнение
-"abbr imp import
-"abbr #i #include
-"abbr #d #define
-"abbr dou double
-"abbr fl float
-"abbr pr print
-"abbr raw raw_input(
-"abbr \i \item
-"abbr \b \begin{
-"abbr \e \end{
-"abbr \u \underline{\hspace{2cm}}
-"abbr \s {\slash}
-
-"Подсвечивает все слова, которые совпадают со словом под курсором.
+" Turn color for all words matches the cursor word
 "autocmd CursorMoved * silent! exe printf("match Search /\\<%s\\>/", expand('<cword>'))
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Вкладки в VIM
+" Tabs
 "------------------------------------------------------------------------------------
-
-"Открытие новых вкладок по Ctrl-T
 " nmap <C-t> :tabnew<CR>
 "imap <C-t> <Esc>:tabnew<CR>a
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Фолдинг в VIM
+" Foldings
 "------------------------------------------------------------------------------------
-" Колоночка, чтобы показывать плюсики для скрытия блоков кода:
+" Column for + symbols
 "set foldcolumn=1
 
 "Fold programs
@@ -474,27 +457,36 @@ augroup END
 " Help files for different types
 "------------------------------------------------------------------------------------
 "Open help file for Vim
-"nmap <silent> <C-h> :40vs $HOME/vimfiles/help/vimhelp.txt<cr>
-" nmap <C-h> :call MyHelpFiles()<CR>
-
-" function MyHelpVim()
-	" :40vs $HOME/vimfiles/help/vimhelp.vim
-" endfunction
-
-function MyHelpFiles()
-	if (&ft == 'tex')
-		:40vs $HOME/vimfiles/help/texhelp.tex
-	elseif (&ft == 'vim')
-		:40vs $HOME/vimfiles/help/vimhelp.vim
-	elseif (&ft == 'c')
-		:40vs $HOME/vimfiles/help/chelp.c
+function MyHelpFiles(FileType)
+	if (a:FileType == 'tex')
+		:60vs $HOME/vimfiles/help/texhelp.tex
+	elseif (a:FileType == 'vim')
+		:60vs $HOME/vimfiles/help/vimhelp.vim
+	elseif (a:FileType == 'c')
+		:60vs $HOME/vimfiles/help/chelp.c
+	elseif (a:FileType == 'vb')
+		:60vs $HOME/vimfiles/help/vbhelp.vbs
 	endif
 endfunction
+
+function HELP(...)
+	if a:0 < 1
+		let FileType = &ft
+	else
+		let FileType = a:1
+	endif
+
+	echo "Filetype =" FileType
+	call MyHelpFiles(FileType)
+
+endfunction
+
+command! -nargs=* HELP call HELP(<f-args>)
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Шаблоны для файлов и их настройка
+" File schemes
 "------------------------------------------------------------------------------------
 autocmd BufRead,BufNewFile *.tex set filetype=tex
 
@@ -507,22 +499,22 @@ autocmd BufRead,BufNewFile *.tex set filetype=tex
 "au BufNewFile *.java silent! r ~/.vim/skeleton.java
 
 
-"Перед сохранением вырезаем пробелы на концах (только в .py, .tex, .c файлах)
+" Cut \s in the line end
 autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 autocmd BufWritePre *.c normal m`:%s/\s\+$//e ``
 autocmd BufWritePre *.tex normal m`:%s/\s\+$//e ``
-"Перед сохранением вырезаем пробелы в начале
+
+" Cut \s in the line beggining
 autocmd BufWritePre *.py normal m`:%s/^\s\+ ``
 autocmd BufWritePre *.c normal m`:%s/^\s\+ ``
 autocmd BufWritePre *.tex normal m`:%s/^\s\+ ``
 
-"В .py файлах включаем умные отступы после ключевых слов
 "autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 "------------------------------------------------------------------------------------
 
 
 "------------------------------------------------------------------------------------
-" Внутренние команды для компиляции
+" Compilations commands
 "------------------------------------------------------------------------------------
 
 command LaTeX execute "write | !pdflatex -interaction=batchmode %"
@@ -534,13 +526,11 @@ command LCLEAR execute "!del *.aux *.log"
 nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
 command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 
-command HELP call MyHelpFiles()
+command BUILDOPENCV execute '!start cmd /c "$HOME/vimfiles/compiler/buildOpenCV.bat" % & pause'
 
-command BUILDOPENCV execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildOpenCV.bat" % & pause'
+command BUILD execute '!start cmd /c "$HOME/vimfiles/compiler/buildC.bat" % & pause'
 
-command BUILD execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildC.bat" % & pause'
-
-command BUILDARDUINO execute '!start cmd /c "C:/Users/Pavlov/vimfiles/compiler/buildArduino.bat" % & pause'
+command BUILDARDUINO execute '!start cmd /c "$HOME/vimfiles/compiler/buildArduino.bat" % & pause'
 
 command EXE execute '!start cmd /c %:r.exe & pause'
 "------------------------------------------------------------------------------------
