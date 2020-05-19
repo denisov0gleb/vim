@@ -1,4 +1,4 @@
-" Last update: 12.05.2020 15:08
+" Last update: 19.05.2020 21:18
 "------------------------------------------------------------------------------------
 
 " Update the modification date on VIMRC before it is closed
@@ -11,8 +11,10 @@ autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.
 set nocompatible							" be iMproved, required
 filetype off									" required
 
-"Kill GUI toolbar
+" Kill GUI toolbar
 set guioptions-=T 
+" Kill menu
+set guioptions-=m
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim
@@ -23,52 +25,16 @@ call vundle#begin('~/vimfiles/bundle')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-
-"------------------------------------------------------------------------------------
-" Nerd Tree
-Plugin 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"------------------------------------------------------------------------------------
-
-" Open/close NERDTree window by Ctrl-N
-nmap <C-N> :NERDTree<cr>
-vmap <C-N> <esc>:NERDTree<cr>i
-imap <C-N> <esc>:NERDTree<cr>i
-
-nmap <C-N>q :NERDTreeClose<cr>
-vmap <C-N>q <esc>:NERDTreeClose<cr>i
-imap <C-N>q <esc>:NERDTreeClose<cr>i
-
-" Set cursor at center
-let g:NERDTreeAutoCenter=1
-
-" Don't show binary files
-let NERDTreeIgnore=['\.pyc$']
-
-" Open NERDTree on the right side 
-let g:NERDTreeWinPos="right"
-let g:NERDTreeWinSize=40
-
-" Automatically open NERDTree with leaved cursor
-"autocmd VimEnter * NERDTree
-"autocmd VimEnter * wincmd p
-
-" Automatically closes NERDTree if it was the last one window
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-"------------------------------------------------------------------------------------
-
-
 Plugin 'itchyny/lightline.vim'
-
 
 "------------------------------------------------------------------------------------
 "Ctrl + h/j/k/l
 Plugin 'matze/vim-move'
 "------------------------------------------------------------------------------------
 
-"Move Ctrl+J/K/H/L
+"Move lines with  Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
 "------------------------------------------------------------------------------------
-
 
 "------------------------------------------------------------------------------------
 "visual mode :Tabular /symbol
@@ -76,13 +42,8 @@ Plugin 'godlygeek/tabular'
 "------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
-" :UndotreeToggle
-Plugin 'mbbill/undotree'
-"------------------------------------------------------------------------------------
 
-" :TlistOpen or :TlistToggle
-"Plugin 'vim-scripts/taglist.vim'
-
+" Shows the diff for git
 Plugin 'airblade/vim-gitgutter'
 
 "------------------------------------------------------------------------------------
@@ -124,12 +85,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["mysnippets"]
 "------------------------------------------------------------------------------------
 
-
 "------------------------------------------------------------------------------------
-" Show git status
-Plugin 'tpope/vim-fugitive'
-Plugin 'junegunn/gv.vim'
-
 " Rainbow parenthesises
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 1
@@ -153,10 +109,6 @@ filetype plugin indent on		 " required
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
-
-"Plug 'jlanzarotta/bufexplorer'
-"Plug 'vim-scripts/taglist.vim'
-
 
 "------------------------------------------------------------------------------------
 " Smart code autocompete
@@ -242,6 +194,7 @@ set confirm
 nnoremap * *N
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" Turn off the sound in Windows
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
@@ -265,7 +218,7 @@ syntax on
 
 set smartindent
 
-" I use \t instead of \s !!!
+" I prefer \t instead of \s !!!
 set noexpandtab
 set copyindent
 set preserveindent
@@ -457,17 +410,10 @@ augroup END
 " Help files for different types
 "------------------------------------------------------------------------------------
 "Open help file for Vim
-function MyHelpFiles(FileType)
-	if (a:FileType == 'tex')
-		:60vs $HOME/vimfiles/help/texhelp.tex
-	elseif (a:FileType == 'vim')
-		:60vs $HOME/vimfiles/help/vimhelp.vim
-	elseif (a:FileType == 'c')
-		:60vs $HOME/vimfiles/help/chelp.c
-	elseif (a:FileType == 'vb')
-		:60vs $HOME/vimfiles/help/vbhelp.vbs
-	endif
+function MyHelp(FileType)
+	execute ":60vs +/HELP:\\ ".a:FileType " $HOME/vimfiles/help/help.txt"
 endfunction
+
 
 function HELP(...)
 	if a:0 < 1
@@ -477,7 +423,7 @@ function HELP(...)
 	endif
 
 	echo "Filetype =" FileType
-	call MyHelpFiles(FileType)
+	call MyHelp(FileType)
 
 endfunction
 
@@ -537,3 +483,9 @@ command EXE execute '!start cmd /c %:r.exe & pause'
 
 
 command VTerminal :vs| :term ++curwin
+
+command EXPLORER :Lex! 40
+
+command EDITVIMRC execute ":vs $HOME/_vimrc"
+
+command COPYVIMRC execute ':!copy '.$HOME.'\_vimrc '.$HOME.'\vimfiles\_vimrc'
