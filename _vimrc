@@ -1,4 +1,4 @@
-" Last update: 19.05.2020 21:18
+" Last update: 21.06.2020 21:05
 "------------------------------------------------------------------------------------
 
 " Update the modification date on VIMRC before it is closed
@@ -12,7 +12,7 @@ set nocompatible							" be iMproved, required
 filetype off									" required
 
 " Kill GUI toolbar
-set guioptions-=T 
+set guioptions-=T
 " Kill menu
 set guioptions-=m
 
@@ -32,7 +32,7 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'matze/vim-move'
 "------------------------------------------------------------------------------------
 
-"Move lines with  Ctrl+J/K/H/L
+"Move lines with	Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
 "------------------------------------------------------------------------------------
 
@@ -45,6 +45,19 @@ Plugin 'godlygeek/tabular'
 
 " Shows the diff for git
 Plugin 'airblade/vim-gitgutter'
+
+" Always show the colums for git changes
+set signcolumn=yes
+
+let g:gitgutter_sign_added = '✔'
+let g:gitgutter_sign_modified = 'µ' "Ctrl-v + u00b5
+let g:gitgutter_sign_removed = '✖'
+let g:gitgutter_sign_removed_first_line = 'Ƒ' "Ctrl-v + u0191
+let g:gitgutter_sign_modified_removed = 'Ø' "Ctrl-v + u00d8
+
+highlight GitGutterAdd		guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 "------------------------------------------------------------------------------------
 " :Hexmode
@@ -61,11 +74,26 @@ Plugin 'ervandew/supertab'
 "------------------------------------------------------------------------------------
 "
 " Union of:
-" 						* simple \t
-" 						* Tab_Or_Complete function
-" 						* snippets from UltiSnips
+"							* simple \t
+"							* Tab_Or_Complete function
+"							* snippets from UltiSnips
 "------------------------------------------------------------------------------------
+let g:SuperTabLongestEnhanced = 1 " For multiple long completes
+let g:SuperTabCrMapping = 1 " To use <Enter> to end complete
+let g:SuperTabCompleteCase = 'ignore' " To ignore match cases
 
+set completeopt=menu,longest    " Use the popup menu by default; only insert the longest common text of the completion matches; don't automatically show extra information in the preview window.
+let g:SuperTabDefaultCompletionType = "context"
+
+function MyTagContext()
+	if filereadable(expand('%:p:h') . '/tags')
+		return '"\<c-x>\<c-]>"
+	endif
+	" no return will result in the evaluation of the next
+	" configured context
+endfunction
+let g:SuperTabCompletionContexts =
+			\ ['MyTagContext', 's:ContextText', 's:ContextDiscover']
 
 "------------------------------------------------------------------------------------
 " Track the engine.
@@ -74,13 +102,13 @@ Plugin 'SirVer/ultisnips'
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
 let g:UltiSnipsListSnippets="<C-S-TAB>"
-let g:UltiSnipsJumpForwardTrigger="<C-TAB>"
-let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
-" let g:UltiSnipsJumpForwardTrigger="<c-f>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" let g:UltiSnipsJumpForwardTrigger="<C-TAB>"
+" let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsEditSplit="normal" " was vertical
 
 let g:UltiSnipsSnippetDirectories=["mysnippets"]
 "------------------------------------------------------------------------------------
@@ -89,6 +117,32 @@ let g:UltiSnipsSnippetDirectories=["mysnippets"]
 " Rainbow parenthesises
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 1
+
+" Markdown autogenerating Table of Content
+Plugin 'mzlogin/vim-markdown-toc'
+
+" Generate table of contents in GFM link style.
+" :GenTocGFM
+
+" Generate table of contents in GitLab link style.
+" :GenTocGitLab
+" :UpdateToc
+" :RemoveToc
+
+let g:vmt_auto_update_on_save = 1
+let g:vmt_dont_insert_fence = 0 " Don't add additional info
+let g:vmt_cycle_list_item_markers = 1 " Use different markers (*, -, +)
+let g:vmt_include_headings_before = 0 " Don't read headers before the table of content
+
+"------------------------------------------------------------------------------------
+Plugin 'yegappan/taglist'
+" :TlistToggle -- open/close taglist
+" :TlistAddFiles ./
+" :TlistAddFilesRecursive ./ *.c
+let g:Tlist_Use_Right_Window = 1
+let g:Tlist_WinWidth = 50
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_File_Fold_Auto_Close = 1
 
 "------------------------------------------------------------------------------------
 
@@ -137,7 +191,8 @@ function! Tab_Or_Complete()
 	endif
 endfunction
 
-inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+" Commented 21.06.20 for VimCompletesMe
+" inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 "------------------------------------------------------------------------------------
 
 
@@ -161,6 +216,9 @@ set noshowmode
 " Shows current command
 set showcmd
 
+" Prevent 'Press Enter' message after most commands
+set cmdheight=2
+
 " Working with a mouse
 "set mouse=a
 
@@ -170,6 +228,13 @@ set linebreak
 " Underline current line
 set cursorline
 set cursorcolumn
+
+" Turn on/off the cursorline and column with '\c'
+nnoremap <Leader>l :set cursorline! cursorcolumn!<CR>
+
+" Highlight the line with '\l'
+nnoremap <silent> <Leader>h ml:execute 'match Search /\%'.line('.').'l/'<CR>
+
 
 " Coloring the searching words
 set hlsearch
@@ -199,6 +264,12 @@ set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 
 set laststatus=2
+
+" '# \o' to add blank lines below
+nnoremap <silent> <Leader>o :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>\
+
+" '# \O' to add blank lines above
+nnoremap <silent> <Leader>O :<C-u>put!=repeat(nr2char(10),v:count)<Bar>execute "']+1"<CR>
 "------------------------------------------------------------------------------------
 
 
@@ -274,27 +345,22 @@ set t_Co=256
 
 set background=light
 colorscheme monokai
-"colorscheme PapayaWhip
-"colorscheme solarized
-"colorscheme wonka-light
-"colorscheme wonka-dark
-"colorscheme stellarized
-"colorscheme PaperColor
-"
-	"тёмная
-"colorscheme spring-night
-	"серая
-"colorscheme jay
 
 set list
 
-" Non-printing symbols
+"------------------------------------------------------------------------------------
+" Non-printable symbols
+"------------------------------------------------------------------------------------
 set showbreak=↪
-set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
-"set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
+set listchars=tab:▸\ ,trail:✖,precedes:←,extends:→,eol:↲,nbsp:✖,
+" set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
+" set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
 
 set selection=inclusive
 
+"------------------------------------------------------------------------------------
+" Window navigation
+"------------------------------------------------------------------------------------
 nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>
 nnoremap <C-Right> <C-W><C-L>
@@ -411,7 +477,7 @@ augroup END
 "------------------------------------------------------------------------------------
 "Open help file for Vim
 function MyHelp(FileType)
-	execute ":60vs +/HELP:\\ ".a:FileType " $HOME/vimfiles/help/help.txt"
+	execute ":60vs +/HELP:\\ ".a:FileType " $HOME/vimfiles/help/help.md"
 endfunction
 
 
@@ -428,6 +494,8 @@ function HELP(...)
 endfunction
 
 command! -nargs=* HELP call HELP(<f-args>)
+
+au BufReadPost,BufNewFile help.txt set ft=help
 "------------------------------------------------------------------------------------
 
 
@@ -489,3 +557,24 @@ command EXPLORER :Lex! 40
 command EDITVIMRC execute ":vs $HOME/_vimrc"
 
 command COPYVIMRC execute ':!copy '.$HOME.'\_vimrc '.$HOME.'\vimfiles\_vimrc'
+
+
+"------------------------------------------------------------------------------------
+" Something new and testing
+"------------------------------------------------------------------------------------
+
+" [ modeline ] {{{
+" set modeline		 " =/* vim: set ai ft=config: */
+" set modelines=5  " the number of lines that is checked for set commands.
+" set columns=80
+" set colorcolumn=+1 " 80 columns: highlight column after 'textwidth', a red line.
+" set cc=+1,+2,+3  " highlight three columns after 'textwidth'
+" set colorcolumn=4,+1
+		" add bellowing to colorscheme file.
+		"hi ColorColumn			ctermfg=None ctermbg=233
+" }}}
+
+" [ popup menu ]
+set pumheight=20 " popup menu height. 0: long
+
+set tags=./tags;
