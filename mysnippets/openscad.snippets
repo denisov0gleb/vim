@@ -1,63 +1,80 @@
-#version 1
 #PREAMBLE
-snippet module "module" bA
+
+# b - beginning of line
+# i - in-word expansion for the first word
+# w - inside the word
+# r - python regular expression
+# t - do not expand tabs
+# s - remove whitespaces from the right of snippet
+# m - remove all whitespaces from right
+# e - custom context snippet
+# A - triger autonatically
+
+
+snippet module "module" b
 module ${1:name}()
 {
-	${0}
+	${2:${VISUAL}}
 }
-
+${0}
 endsnippet
 
-snippet modMove
+
+snippet modMove "module with move" b
 module ${1:name}(move = [0, 0, 0])
 {
 	translate(move)
 	{
-		${0}
+		${2:${VISUAL}}
 	}
 }
-
+${0}
 endsnippet
 
-snippet cylC "cylinder" A
+
+snippet cylinder "cylinder" i
 cylinder(d = ${1:dia}, h = ${2:height}, $fn=${3:300}, center=true);
-${0}
 endsnippet
 
-snippet coneC "cone" A
+
+snippet cone "cone" i
 cylinder(d1 = ${1:dia1}, d2 = ${2:dia2}, h = ${3:height}, $fn=${4:300}, center=true);
-${0}
 endsnippet
 
-snippet cubeC "cube" A
+
+snippet cube "cube" i
 cube([${1:0}, ${2:0}, ${3:0}], center=true);
-${0}
 endsnippet
 
-snippet translate "translate" A
+
+snippet translate "translate" i
 translate([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet rotate "rotate" A
+
+snippet rotate "rotate" i
 rotate([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet scale "scale" A
+
+snippet scale "scale" i
 scale([${1:0}, ${2:0}, ${3:0}]) ${0}
 endsnippet
 
-snippet difference "difference" A
+
+snippet difference "difference" b
 difference()
 {
-	${0}
+	${2:${VISUAL}}
 }
-
+${0}
 endsnippet
 
-snippet union "union" A
+
+snippet union "union" b
 union()
 {
-	${0}
+	${2:${VISUAL}}
 }
-
+${0}
 endsnippet

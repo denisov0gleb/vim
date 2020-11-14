@@ -144,7 +144,7 @@ __For first page__
 \usepackage{xcolor}
 \textcolor{red}{red text}
 
-% Correction on 
+% Correction on
 \marginpar{Этот текст появится сбоку на полях.}
 
 {\large text}
@@ -228,6 +228,12 @@ $\begin{cases}
 
 % +-
 \pm
+
+% >=
+\geqslant
+
+% <=
+\leqslant
 ```
 
 [Detect the hand written symbol](http://detexify.kirelabs.org/classify.html)
@@ -542,14 +548,41 @@ Ctrl-v u####	-- insert Unicode symbol
 ### Normal Mode
 
 ```vim
-ga -- show the information about symbol
-]s -- next spelling error
-[s -- previous spelling error
-zg -- add the word under cursor to the dictionary
-zug -- undo zg command
-z= -- print list of possible variants
-zo -- open foldings
-zc -- close foldings
+ga	-- show the information about symbol
+]s	-- next spelling error
+[s	-- previous spelling error
+zg	-- add the word under cursor to the dictionary
+zug	-- undo zg command
+z=	-- print list of possible variants
+zo	-- open foldings
+zc	-- close foldings
+
+g~	-- switch case under cursor (+Visual)
+g~~	-- switch case of the current line
+g~$	-- switch case of the current line till the end
+gUU	-- switch to upper case
+guu	-- switch to lower case
+
+Ctrl+R / .	-- redo
+
+Ctrl+W o		-- :only
+Ctrl+W n		-- :new
+Ctrl+W c		-- :q
+Ctrl+W s		-- :split
+Ctrl+W v		-- :vsplit
+
+Ctrl+W r		-- swap bottom/top windows
+Ctrl+W _		-- max height
+Ctrl+W |		-- max width
+Ctrl+W =		-- normalize all windows
+
+Ctrl+W # >	-- increase to right for # value
+Ctrl+W # <	-- increase to left for # value
+Ctrl+W + <	-- increase height for # value
+Ctrl+W - <	-- decrease height for # value
+
+
+
 ```
 
 ### Command Mode
@@ -570,6 +603,57 @@ Ctrl-r Ctrl-w -- insert word under cursor
 			-- % -- all
 			-- $ -- last line
 			-- . -- current line
+
+Ctrl-v + Enter	-- newline symbol (^M)
+```
+
+
+### Search
+
+```vim
+\| -- or
+
+:%s/\s\+$//e -- remove trailing spaces
+
+:%s/\d*\zs\ze\S/ /g -- add a spece between the digit and character 123abc -> 123 abc
+
+. -- any character except new line
+\s -- whitespace character
+\S -- non-whitespace character
+\d -- digit
+\D -- non-digit
+\x -- hex digit
+\X -- non-hex digit
+\o -- octal digit
+\O -- non-octal digit
+\h -- head of word character (a,b,c...z,A,B,C...Z and _)
+\H -- non-head of word character
+\p -- printable character
+\P -- like \p, but excluding digits
+\w -- word character
+\W -- non-word character
+\a -- alphabetic character
+\A -- non-alphabetic character
+\l -- lowercase character
+\L -- non-lowercase character
+\u -- uppercase character
+\U -- non-uppercase character
+
+
+* -- matches 0 or more of the preceding characters, ranges or metacharacters .* matches everything including empty line
+\+ -- matches 1 or more of the preceding characters...
+\= -- matches 0 or 1 more of the preceding characters...
+\{n,m} -- matches from n to m of the preceding characters...
+\{n} -- matches exactly n times of the preceding characters...
+\{,m} -- matches at most m (from 0 to m) of the preceding characters...
+\{n,} -- matches at least n of of the preceding characters
+				...where n and m are positive integers (>0)
+
+:g/some text/d	-- delete all lines containing "some text"
+:g/^\s*$/d			-- delete all empty lines or containing only whitespaces
+:g!/some text/d	-- delete all lines NOT containing "some text"
+:v == :g!
+:v/error\|warn\|fail/d	-- delete all lines EXCEPT those that contain "error" or "warn" or "fail"
 ```
 
 ### Info
@@ -658,6 +742,9 @@ __bold__
   centered text
 </div>
 
+<sup>superscript</sup>
+<sub>subscript</sub>
+
 <span style="color:blue">Blue text</span>
 ```
 
@@ -673,7 +760,7 @@ __bold__
 
    Have to have at least one space before
 
-5. Another way to create a paragraph:  
+5. Another way to create a paragraph:
    Leave two spaces at the line end.
 
 * First unordered type
@@ -697,7 +784,7 @@ __bold__
 Or leave it empty and use the [link text itself].
 
 URLs and URLs in angle brackets will automatically get turned into links.
-http://www.example.com or <http://www.example.com> and sometimes 
+http://www.example.com or <http://www.example.com> and sometimes
 example.com (but not on Github, for example).
 
 Some text to show that the reference links can follow later.
@@ -706,6 +793,11 @@ Some text to show that the reference links can follow later.
 [1]: http://slashdot.org
 [link text itself]: http://www.reddit.com
 ```
+
+### Images ###
+
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
 
 ### HIGHLIGHT
 
@@ -950,3 +1042,15 @@ Read files:
 - Microsoft Compiled HTML Html (.chm)
 - XPS (.xps, .oxps, .xod)
 - images (.jpg, .png,.gif, .webp, .tiff, tga, .j2k, .bmp, .dib)
+
+
+_______________________________________________________________________________
+
+## HELP: git
+[Table of Content](#table-of-content)
+
+```git
+git init -- start git project
+
+git rm --cached <file> -- to remove <file> from the git, but not disk
+```

@@ -1,4 +1,4 @@
-" Last update: 21.06.2020 21:05
+" Last update: 17.09.2020 14:36
 "------------------------------------------------------------------------------------
 
 " Update the modification date on VIMRC before it is closed
@@ -25,8 +25,6 @@ call vundle#begin('~/vimfiles/bundle')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'itchyny/lightline.vim'
-
 "------------------------------------------------------------------------------------
 "Ctrl + h/j/k/l
 Plugin 'matze/vim-move'
@@ -42,7 +40,6 @@ Plugin 'godlygeek/tabular'
 "------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
-
 " Shows the diff for git
 Plugin 'airblade/vim-gitgutter'
 
@@ -64,25 +61,22 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 Plugin 'fidian/hexmode'
 "------------------------------------------------------------------------------------
 
+"------------------------------------------------------------------------------------
 Plugin 'scrooloose/nerdcommenter'
-
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
 "------------------------------------------------------------------------------------
 Plugin 'ervandew/supertab'
-"------------------------------------------------------------------------------------
-"
 " Union of:
 "							* simple \t
 "							* Tab_Or_Complete function
 "							* snippets from UltiSnips
-"------------------------------------------------------------------------------------
 let g:SuperTabLongestEnhanced = 1 " For multiple long completes
 let g:SuperTabCrMapping = 1 " To use <Enter> to end complete
 let g:SuperTabCompleteCase = 'ignore' " To ignore match cases
 
-set completeopt=menu,longest    " Use the popup menu by default; only insert the longest common text of the completion matches; don't automatically show extra information in the preview window.
+set completeopt=menu,longest		" Use the popup menu by default; only insert the longest common text of the completion matches; don't automatically show extra information in the preview window.
 let g:SuperTabDefaultCompletionType = "context"
 
 function MyTagContext()
@@ -98,7 +92,6 @@ let g:SuperTabCompletionContexts =
 "------------------------------------------------------------------------------------
 " Track the engine.
 Plugin 'SirVer/ultisnips'
-"------------------------------------------------------------------------------------
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<TAB>"
 let g:UltiSnipsListSnippets="<C-S-TAB>"
@@ -117,10 +110,11 @@ let g:UltiSnipsSnippetDirectories=["mysnippets"]
 " Rainbow parenthesises
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 1
+"------------------------------------------------------------------------------------
 
+"------------------------------------------------------------------------------------
 " Markdown autogenerating Table of Content
 Plugin 'mzlogin/vim-markdown-toc'
-
 " Generate table of contents in GFM link style.
 " :GenTocGFM
 
@@ -130,9 +124,11 @@ Plugin 'mzlogin/vim-markdown-toc'
 " :RemoveToc
 
 let g:vmt_auto_update_on_save = 1
-let g:vmt_dont_insert_fence = 0 " Don't add additional info
-let g:vmt_cycle_list_item_markers = 1 " Use different markers (*, -, +)
+let g:vmt_dont_insert_fence = 0 " Don't add additional info, needed for autoupdate
+let g:vmt_list_item_char = '1.'
+let g:vmt_cycle_list_item_markers = 0 " Use different markers (*, -, +)
 let g:vmt_include_headings_before = 0 " Don't read headers before the table of content
+"------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
 Plugin 'yegappan/taglist'
@@ -144,8 +140,27 @@ let g:Tlist_WinWidth = 50
 let g:Tlist_Exit_OnlyWindow = 1
 let g:Tlist_File_Fold_Auto_Close = 1
 
+map <leader>tt :TlistToggle<CR>
 "------------------------------------------------------------------------------------
 
+"------------------------------------------------------------------------------------
+" Distraction free plugins
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+
+map <leader>gy :Goyo<CR>
+let g:goyo_width = 125
+
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+"------------------------------------------------------------------------------------
+" Color indents
+Plugin 'nathanaelkane/vim-indent-guides'
+
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd	guibg=#484a41 ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#474744 ctermbg=4
+"------------------------------------------------------------------------------------
 call vundle#end()						 " required
 filetype plugin indent on		 " required
 
@@ -265,6 +280,71 @@ autocmd GUIEnter * set visualbell t_vb=
 
 set laststatus=2
 
+" status bar colors
+au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
+au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+
+
+" Status Line Custom
+let g:currentmode={
+		\ 'n'			 : 'Normal',
+		\ 'no'		 : 'Normal·Operator Pending',
+		\ 'v'			 : 'Visual',
+		\ 'V'			 : 'V·Line',
+		\ "\<C-V>" : 'V·Block',
+		\ 's'			 : 'Select',
+		\ 'S'			 : 'S·Line',
+		\ '^S'		 : 'S·Block',
+		\ 'i'			 : 'Insert',
+		\ 'R'			 : 'Replace',
+		\ 'Rv'		 : 'V·Replace',
+		\ 'c'			 : 'Command',
+		\ 'cv'		 : 'Vim Ex',
+		\ 'ce'		 : 'Ex',
+		\ 'r'			 : 'Prompt',
+		\ 'rm'		 : 'More',
+		\ 'r?'		 : 'Confirm',
+		\ '!'			 : 'Shell',
+		\ 't'			 : 'Terminal'
+		\}
+
+set statusline=
+
+" The current mode
+set statusline+=%0*\ %{toupper(g:currentmode[mode()])}
+
+"
+set statusline+=%1*\ %m
+
+set statusline+=%1*\ %F
+" Separator
+" set statusline+=%2*│
+
+" set statusline+=%#LineNr#
+set statusline+=%2*\ Symbol:\ %b\ 0x%B
+
+" FileType
+set statusline+=%2*\ %Y
+
+set statusline+=%=
+
+" Encoding
+set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}
+
+" Colomn number
+set statusline+=%2*\ col:\ %02v
+
+" Line number / total lines, percentage of document
+set statusline+=%1*\ ln:\ %02l/%L\ [%3p%%]
+
+hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
+hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
+hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
+hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+
+
+
 " '# \o' to add blank lines below
 nnoremap <silent> <Leader>o :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>\
 
@@ -365,6 +445,12 @@ nnoremap <C-Down> <C-W><C-J>
 nnoremap <C-Up> <C-W><C-K>
 nnoremap <C-Right> <C-W><C-L>
 nnoremap <C-Left> <C-W><C-H>
+
+
+nnoremap <A-j> <C-W><C-J>
+nnoremap <A-k> <C-W><C-K>
+nnoremap <A-l> <C-W><C-L>
+nnoremap <A-h> <C-W><C-H>
 "------------------------------------------------------------------------------------
 
 
@@ -563,18 +649,9 @@ command COPYVIMRC execute ':!copy '.$HOME.'\_vimrc '.$HOME.'\vimfiles\_vimrc'
 " Something new and testing
 "------------------------------------------------------------------------------------
 
-" [ modeline ] {{{
-" set modeline		 " =/* vim: set ai ft=config: */
-" set modelines=5  " the number of lines that is checked for set commands.
-" set columns=80
-" set colorcolumn=+1 " 80 columns: highlight column after 'textwidth', a red line.
-" set cc=+1,+2,+3  " highlight three columns after 'textwidth'
-" set colorcolumn=4,+1
-		" add bellowing to colorscheme file.
-		"hi ColorColumn			ctermfg=None ctermbg=233
-" }}}
-
 " [ popup menu ]
 set pumheight=20 " popup menu height. 0: long
 
-set tags=./tags;
+command ClearTrailingSpaces :%s/\s\+$//e
+
+command READVIMRC :source $MYVIMRC

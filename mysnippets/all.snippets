@@ -8,7 +8,7 @@
 # t - do not expand tabs
 # s - remove whitespaces from the right of snippet
 # m - remove all whitespaces form right
-# e - costom context snippet
+# e - custom context snippet
 # A - triger autonatically
 
 #####################################
@@ -51,8 +51,20 @@ all: $(TARGET)
 	$(CC) -c $< -o $@
 
 $(TARGET): $(OBJECTS)
-	@echo "Compile for $(TARGET)"
+	@echo ""
+	@echo "	***********************"
+	@echo "	Compile $(TARGET)"
+	@echo "	***********************"
+	@echo ""
 	$(CC) $(OBJECTS) -o $@
+
+exe:
+	@echo ""
+	@echo "	***********************"
+	@echo "	Run $(TARGET)"
+	@echo "	***********************"
+	@echo ""
+	$(TARGET).exe
 
 install:
 	@echo "Installation!"
@@ -61,7 +73,12 @@ uninstall:
 	@echo "Uninstal!"
 
 clean:
-	@echo "Remove all executable and object files!"
+	@echo ""
+	@echo "	***********************"
+	@echo "	Remove all executable and object files!"
+	@echo "	***********************"
+	@echo ""
+
 	$(REMOVE) *.exe *.o $(TARGET)
 endsnippet
 

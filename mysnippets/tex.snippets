@@ -50,7 +50,12 @@ snippet beg
 endsnippet
 
 
-snippet mk "Math" wA
+snippet , "{,}" i
+{,}$0
+endsnippet
+
+
+snippet math "Math" wA
 $${1}$`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
 	snip.rv = ' '
@@ -59,6 +64,15 @@ else:
 `$2
 endsnippet
 
+
+snippet eq "equation" wA
+$$${1}$$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$2
+endsnippet
 
 # a1 -> a_1
 snippet '([A-Za-z])(\d)' "auto subscript" wrA
@@ -86,7 +100,15 @@ snippet * "\cdot" iA
  \cdot $0
 endsnippet
 
-snippet / "slash" iA
+snippet >= ">=" iA
+\geqslant $0
+endsnippet
+
+snippet <= "<=" iA
+\leqslant $0
+endsnippet
+
+snippet sl "slash" iA
 {\slash}$0
 endsnippet
 
@@ -103,27 +125,27 @@ snippet td "superscript" iA
 endsnippet
 
 snippet sin "sin" iA
-\\sin{$1}$0
+\sin{$1}$0
 endsnippet
 
 snippet cos "cos" iA
-\\cos{$1}$0
+\cos{$1}$0
 endsnippet
 
 snippet tg "tg" iA
-\\tg{$1}$0
+\tg{$1}$0
 endsnippet
 
 snippet sq "sqrt" iA
-\\sqrt{$1}$0
+\sqrt{$1}$0
 endsnippet
 
 snippet // "Fraction" iA
-\\frac{$1}{$2}$0
+\frac{$1}{$2}$0
 endsnippet
 
 snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
-\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+\frac{`!p snip.rv = match.group(1)`}{$1}$0
 endsnippet
 
 #snippet / "Fraction" iA
@@ -153,29 +175,29 @@ endsnippet
 
 
 snippet drawRightTriangle "Draw right triangle in tikz" iA
-\\begin{tikzpicture}[scale=0.75]
+\begin{tikzpicture}[scale=0.75]
 	%cathet_1 = $1
 	%cathet_2 = $2
-	\\draw[thick] (0,0) -- ($1,0) -- ($1,$2) -- cycle;
-	\\node[below left] at (0,0) {$A$};
-	\\node[below right] at ($1,0) {$C$};
-	\\node[above right] at ($2,4) {$B$};
-\\end{tikzpicture}
+	\draw[thick] (0,0) -- ($1,0) -- ($1,$2) -- cycle;
+	\node[below left] at (0,0) {$A$};
+	\node[below right] at ($1,0) {$C$};
+	\node[above right] at ($2,4) {$B$};
+\end{tikzpicture}
 endsnippet
 
 snippet drawCircle "Draw circle" iA
-\\begin{tikzpicture}
+\begin{tikzpicture}
 	%radius = $1:2
-	\\draw[thick] (0, 0) circle ($1cm);
-	\\fill[blue] (0, 0) circle (2pt);
+	\draw[thick] (0, 0) circle ($1cm);
+	\fill[blue] (0, 0) circle (2pt);
 	%\draw[blue, ->] (0,0) -- (0,$1);
-\\end{tikzpicture}
+\end{tikzpicture}
 endsnippet
 
 snippet drawSquare "Draw square" iA
-\\begin{tikzpicture}
+\begin{tikzpicture}
 	%side_1 = $1
 	%side_2 = $2
-	\\draw[thick] (0,0) rectangle ($1cm,$2cm);
-\\end{tikzpicture}
+	\draw[thick] (0,0) rectangle ($1cm,$2cm);
+\end{tikzpicture}
 endsnippet
