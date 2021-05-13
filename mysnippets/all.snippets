@@ -9,7 +9,7 @@
 # s - remove whitespaces from the right of snippet
 # m - remove all whitespaces form right
 # e - custom context snippet
-# A - triger autonatically
+# A - triger automatically
 
 #####################################
 #               DATES               #
@@ -28,7 +28,7 @@ endsnippet
 
 
 #####################################
-#               Progs               #
+#               PROGS               #
 #####################################
 snippet makefile "makefile" i
 CC = gcc
@@ -98,7 +98,7 @@ int foo(void);
 endsnippet
 
 #####################################
-#            Parenthesis            #
+#            PARENTHESIS            #
 #####################################
 snippet ( "Create a pair of ()" i
 (${1:${VISUAL}})
@@ -125,7 +125,7 @@ snippet | "Create a pair of ||" i
 endsnippet
 
 
-snippet " "Create a pair of """ i
+snippet " "Create a pair of " i
 "${1:${VISUAL}}"
 endsnippet
 
@@ -153,7 +153,8 @@ endsnippet
 
 
 snippet § "Create pair of $$" i
-$${1:${VISUAL}}$
+$$
+# $$${1:${VISUAL}}
 endsnippet
 
 

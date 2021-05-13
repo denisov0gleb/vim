@@ -1,5 +1,19 @@
 #version 1
 #PREAMBLE
+# b - beginning of line
+# i - in-word expansion for the first word
+# w - inside the word
+# r - python regular expression
+# t - do not expand tabs
+# s - remove whitespaces from the right of snippet
+# m - remove all whitespaces form right
+# e - custom context snippet
+# A - triger autonatically
+
+
+#####################################
+#            STUDENTS               #
+#####################################
 snippet student
 	\\documentclass[12pt, a4paper, oneside]{article}	% {article|letter|report}
 
@@ -42,6 +56,9 @@ snippet student
 endsnippet
 
 
+#####################################
+#           ENVIRONMENT             #
+#####################################
 snippet beg
 \begin{${1:enumerate}}
 	${2:\item}
@@ -49,12 +66,19 @@ snippet beg
 \end{$1}
 endsnippet
 
+snippet it "\item" i
+\item
+	${0}
+endsnippet
 
 snippet , "{,}" i
 {,}$0
 endsnippet
 
 
+#####################################
+#               MATH                #
+#####################################
 snippet math "Math" wA
 $${1}$`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
@@ -75,12 +99,12 @@ else:
 endsnippet
 
 # a1 -> a_1
-snippet '([A-Za-z])(\d)' "auto subscript" wrA
+snippet '([A-Za-z])(\d)' "auto subscript" wri
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
 endsnippet
 
 # a11 -> a_{11}
-snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
+snippet '([A-Za-z])_(\d\d)' "auto subscript2" wri
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
@@ -96,7 +120,7 @@ snippet root "\square" iA
 \square{$1}$0
 endsnippet
 
-snippet * "\cdot" iA
+snippet * "\cdot" i
  \cdot $0
 endsnippet
 
@@ -108,43 +132,43 @@ snippet <= "<=" iA
 \leqslant $0
 endsnippet
 
-snippet sl "slash" iA
+snippet sl "slash" i
 {\slash}$0
 endsnippet
 
-snippet sr "^2" iA
+snippet sr "^2" i
 ^2
 endsnippet
 
-snippet cb "^3" iA
+snippet cb "^3" i
 ^3
 endsnippet
 
-snippet td "superscript" iA
+snippet td "superscript" i
 ^{$1}$0
 endsnippet
 
-snippet sin "sin" iA
+snippet sin "sin" i
 \sin{$1}$0
 endsnippet
 
-snippet cos "cos" iA
+snippet cos "cos" i
 \cos{$1}$0
 endsnippet
 
-snippet tg "tg" iA
+snippet tg "tg" i
 \tg{$1}$0
 endsnippet
 
-snippet sq "sqrt" iA
+snippet sq "sqrt" i
 \sqrt{$1}$0
 endsnippet
 
-snippet // "Fraction" iA
+snippet // "Fraction" i
 \frac{$1}{$2}$0
 endsnippet
 
-snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wr
 \frac{`!p snip.rv = match.group(1)`}{$1}$0
 endsnippet
 
@@ -153,7 +177,7 @@ endsnippet
 #endsnippet
 
 priority 1000
-snippet '^.*\)/' "() Fraction" wrA
+snippet '^.*\)/' "() Fraction" wr
 `!p
 stripped = match.string[:-1]
 depth = 0
@@ -168,36 +192,3 @@ snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
 endsnippet
 
 
-snippet it "\item" i
-\item
-	${0}
-endsnippet
-
-
-snippet drawRightTriangle "Draw right triangle in tikz" iA
-\begin{tikzpicture}[scale=0.75]
-	%cathet_1 = $1
-	%cathet_2 = $2
-	\draw[thick] (0,0) -- ($1,0) -- ($1,$2) -- cycle;
-	\node[below left] at (0,0) {$A$};
-	\node[below right] at ($1,0) {$C$};
-	\node[above right] at ($2,4) {$B$};
-\end{tikzpicture}
-endsnippet
-
-snippet drawCircle "Draw circle" iA
-\begin{tikzpicture}
-	%radius = $1:2
-	\draw[thick] (0, 0) circle ($1cm);
-	\fill[blue] (0, 0) circle (2pt);
-	%\draw[blue, ->] (0,0) -- (0,$1);
-\end{tikzpicture}
-endsnippet
-
-snippet drawSquare "Draw square" iA
-\begin{tikzpicture}
-	%side_1 = $1
-	%side_2 = $2
-	\draw[thick] (0,0) rectangle ($1cm,$2cm);
-\end{tikzpicture}
-endsnippet

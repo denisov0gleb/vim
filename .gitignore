@@ -1,7 +1,4 @@
-/bundle/
 /bundle/*
 .netrwhist
-./bundle/Vundle.vim/
-/sessions/*
 *.dll
 *.lib

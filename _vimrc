@@ -1,136 +1,104 @@
-" Last update: 17.09.2020 14:36
+" Last update: 13.05.2021 16:56
 "------------------------------------------------------------------------------------
 
-" Update the modification date on VIMRC before it is closed
-autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.%Y %H:%M"))"
+"------------------------------------------------------------------------------------
+" Basic settings
+"------------------------------------------------------------------------------------
+set autowrite
+set backspace=indent,eol,start " Turn backspace on
+set cmdheight=2 " Prevent 'Press Enter' message after most commands
+set clipboard=unnamed "Use system clipboard
+set colorcolumn=100
+set complete+=kspell
+set completeopt=menuone,longest
+set confirm " Use dialogs instead of error messages
+set copyindent
+set cursorline " Underline current line
+set cursorcolumn
+set encoding=utf-8
+set guioptions-=T " Kill GUI toolbar
+set guioptions-=m " Kill menu
+set hlsearch " Coloring the searching words
+set incsearch
+set laststatus=2
+set linebreak
+set list
+set listchars=tab:▸\ ,trail:✖,precedes:←,extends:→,eol:↲,nbsp:✖,
+set number
+set nobackup
+set noerrorbells visualbell t_vb= " Turn off the sound in Windows
+set noexpandtab
+set noshowmode " Don't show statusline
+set noswapfile
+set nowrap
+set nowritebackup
+set preserveindent
+set ruler
+set scrolloff=6 " Scroll page before 6 lines
+set showbreak=↪
+set showcmd
+set shiftwidth=2
+set shortmess+=c
+set selection=inclusive
+set signcolumn=yes " Always show the colums for git changes
+set smartcase
+set smartindent
+set softtabstop=0
+set splitbelow "Split page below and right of the page
+set splitright
+set tabstop=2
+set textwidth=100 " Max line width
+set termencoding=utf-8
+
+retab!
 
 "------------------------------------------------------------------------------------
-" Vundle plugin manager
+" Plugins
 "------------------------------------------------------------------------------------
-
-set nocompatible							" be iMproved, required
-filetype off									" required
-
-" Kill GUI toolbar
-set guioptions-=T
-" Kill menu
-set guioptions-=m
-
-" set the runtime path to include Vundle and initialize
+set nocompatible
+filetype off
 set rtp+=~/vimfiles/bundle/Vundle.vim
 call vundle#begin('~/vimfiles/bundle')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-"------------------------------------------------------------------------------------
-"Ctrl + h/j/k/l
-Plugin 'matze/vim-move'
-"------------------------------------------------------------------------------------
-
-"Move lines with	Ctrl+J/K/H/L
+Plugin 'matze/vim-move' " Move lines with Ctrl+J/K/H/L
 let g:move_key_modifier = 'C'
-"------------------------------------------------------------------------------------
 
-"------------------------------------------------------------------------------------
-"visual mode :Tabular /symbol
-Plugin 'godlygeek/tabular'
-"------------------------------------------------------------------------------------
+Plugin 'godlygeek/tabular' " visual mode :Tabular /symbol
 
-"------------------------------------------------------------------------------------
-" Shows the diff for git
-Plugin 'airblade/vim-gitgutter'
-
-" Always show the colums for git changes
-set signcolumn=yes
-
+Plugin 'airblade/vim-gitgutter' " Shows the diff for git
 let g:gitgutter_sign_added = '✔'
 let g:gitgutter_sign_modified = 'µ' "Ctrl-v + u00b5
 let g:gitgutter_sign_removed = '✖'
 let g:gitgutter_sign_removed_first_line = 'Ƒ' "Ctrl-v + u0191
 let g:gitgutter_sign_modified_removed = 'Ø' "Ctrl-v + u00d8
-
 highlight GitGutterAdd		guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
-"------------------------------------------------------------------------------------
-" :Hexmode
-Plugin 'fidian/hexmode'
-"------------------------------------------------------------------------------------
+Plugin 'fidian/hexmode' " :Hexmode
 
-"------------------------------------------------------------------------------------
 Plugin 'scrooloose/nerdcommenter'
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
+let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
 
-"------------------------------------------------------------------------------------
-Plugin 'ervandew/supertab'
-" Union of:
-"							* simple \t
-"							* Tab_Or_Complete function
-"							* snippets from UltiSnips
-let g:SuperTabLongestEnhanced = 1 " For multiple long completes
-let g:SuperTabCrMapping = 1 " To use <Enter> to end complete
-let g:SuperTabCompleteCase = 'ignore' " To ignore match cases
-
-set completeopt=menu,longest		" Use the popup menu by default; only insert the longest common text of the completion matches; don't automatically show extra information in the preview window.
-let g:SuperTabDefaultCompletionType = "context"
-
-function MyTagContext()
-	if filereadable(expand('%:p:h') . '/tags')
-		return '"\<c-x>\<c-]>"
-	endif
-	" no return will result in the evaluation of the next
-	" configured context
-endfunction
-let g:SuperTabCompletionContexts =
-			\ ['MyTagContext', 's:ContextText', 's:ContextDiscover']
-
-"------------------------------------------------------------------------------------
-" Track the engine.
-Plugin 'SirVer/ultisnips'
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+Plugin 'SirVer/ultisnips' " Track the engine.
 let g:UltiSnipsExpandTrigger="<TAB>"
 let g:UltiSnipsListSnippets="<C-S-TAB>"
-" let g:UltiSnipsJumpForwardTrigger="<C-TAB>"
-" let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-
-" If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="normal" " was vertical
-
 let g:UltiSnipsSnippetDirectories=["mysnippets"]
-"------------------------------------------------------------------------------------
 
-"------------------------------------------------------------------------------------
-" Rainbow parenthesises
-Plugin 'luochen1990/rainbow'
+Plugin 'luochen1990/rainbow' " Rainbow parenthesises
 let g:rainbow_active = 1
-"------------------------------------------------------------------------------------
 
-"------------------------------------------------------------------------------------
-" Markdown autogenerating Table of Content
-Plugin 'mzlogin/vim-markdown-toc'
-" Generate table of contents in GFM link style.
-" :GenTocGFM
-
-" Generate table of contents in GitLab link style.
-" :GenTocGitLab
-" :UpdateToc
-" :RemoveToc
-
+Plugin 'mzlogin/vim-markdown-toc' " Markdown autogenerating Table of Content :GenTocGFM
 let g:vmt_auto_update_on_save = 1
 let g:vmt_dont_insert_fence = 0 " Don't add additional info, needed for autoupdate
 let g:vmt_list_item_char = '1.'
 let g:vmt_cycle_list_item_markers = 0 " Use different markers (*, -, +)
 let g:vmt_include_headings_before = 0 " Don't read headers before the table of content
-"------------------------------------------------------------------------------------
 
-"------------------------------------------------------------------------------------
 Plugin 'yegappan/taglist'
 " :TlistToggle -- open/close taglist
 " :TlistAddFiles ./
@@ -140,151 +108,33 @@ let g:Tlist_WinWidth = 50
 let g:Tlist_Exit_OnlyWindow = 1
 let g:Tlist_File_Fold_Auto_Close = 1
 
-map <leader>tt :TlistToggle<CR>
-"------------------------------------------------------------------------------------
+
+Plugin 'vim-scripts/AutoComplPop' " Auto popup menu for compete words
 
 "------------------------------------------------------------------------------------
-" Distraction free plugins
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-
-map <leader>gy :Goyo<CR>
-let g:goyo_width = 125
-
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
+" Colorschemes
 "------------------------------------------------------------------------------------
-" Color indents
-Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'https://github.com/drewtempelmeyer/palenight.vim'
+Plugin 'https://github.com/arcticicestudio/nord-vim'
+Plugin 'jacoborus/tender.vim'
 
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd	guibg=#484a41 ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#474744 ctermbg=4
-"------------------------------------------------------------------------------------
-call vundle#end()						 " required
-filetype plugin indent on		 " required
-
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList				- lists configured plugins
-" :PluginInstall		- installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean			- confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
+call vundle#end()
+filetype plugin indent on
+syntax on
 
 "------------------------------------------------------------------------------------
-" Smart code autocompete
-" Used it earlier
+" Detect file type
 "------------------------------------------------------------------------------------
-
-function! SuperCleverTab()
-	if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-		return "\<C-p>"
-	else
-		return "\<C-p>"
-	endif
-endfunction
-"inoremap <C-Right> <C-R>=SuperCleverTab()<cr> " Совсем старое
-"inoremap <C-Space> <C-R>=SuperCleverTab()<cr>
-"------------------------------------------------------------------------------------
+autocmd BufNewFile,BufRead *.gcode set syntax=gcode
+autocmd BufNewFile,BufRead *.gcode set syntax=gcode
 
 "------------------------------------------------------------------------------------
-" Smart code autocompete
+" Status line
 "------------------------------------------------------------------------------------
-function! Tab_Or_Complete()
-	if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-		return "\<C-N>"
-	else
-		return "\<Tab>"
-	endif
-endfunction
-
-" Commented 21.06.20 for VimCompletesMe
-" inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-"Clear registers
-command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor
-
-
-"------------------------------------------------------------------------------------
-" Show VIM status
-"------------------------------------------------------------------------------------
-" Position
-set ruler
-
-" Line numbers
-set number
-
-" Don't show statusline
-set noshowmode
-
-" Shows current command
-set showcmd
-
-" Prevent 'Press Enter' message after most commands
-set cmdheight=2
-
-" Working with a mouse
-"set mouse=a
-
-"Перенос по словам, а не по буквам
-set linebreak
-
-" Underline current line
-set cursorline
-set cursorcolumn
-
-" Turn on/off the cursorline and column with '\c'
-nnoremap <Leader>l :set cursorline! cursorcolumn!<CR>
-
-" Highlight the line with '\l'
-nnoremap <silent> <Leader>h ml:execute 'match Search /\%'.line('.').'l/'<CR>
-
-
-" Coloring the searching words
-set hlsearch
-
-" Turn off previous listed search words
-set nohlsearch
-
-" Scroll page before 6 lines
-set scrolloff=6
-
-"Split page below and right of the page
-set splitbelow
-set splitright
-
-" Max line width
-set textwidth=100
-
-" Use dialogs instead of error messages
-set confirm
-
-" Don't run to next search word
-nnoremap * *N
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-" Turn off the sound in Windows
-set noerrorbells visualbell t_vb=
-autocmd GUIEnter * set visualbell t_vb=
-
-set laststatus=2
-
 " status bar colors
 au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
 au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
 hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-
 
 " Status Line Custom
 let g:currentmode={
@@ -310,348 +160,111 @@ let g:currentmode={
 		\}
 
 set statusline=
-
-" The current mode
 set statusline+=%0*\ %{toupper(g:currentmode[mode()])}
-
-"
 set statusline+=%1*\ %m
-
 set statusline+=%1*\ %F
-" Separator
-" set statusline+=%2*│
-
-" set statusline+=%#LineNr#
 set statusline+=%2*\ Symbol:\ %b\ 0x%B
-
-" FileType
-set statusline+=%2*\ %Y
-
+set statusline+=%2*\ %Y " FileType
 set statusline+=%=
-
-" Encoding
-set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}
-
-" Colomn number
-set statusline+=%2*\ col:\ %02v
-
-" Line number / total lines, percentage of document
-set statusline+=%1*\ ln:\ %02l/%L\ [%3p%%]
+set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''} " Encoding
+set statusline+=%2*\ col:\ %02v " Colomn number
+set statusline+=%1*\ ln:\ %02l/%L\ [%3p%%] " Line number / total lines, percentage of document
 
 hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
 hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
 hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
 hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+"------------------------------------------------------------------------------------
 
+"------------------------------------------------------------------------------------
+" Cyrillic
+"------------------------------------------------------------------------------------
+scriptencoding utf-8
 
+source $VIMRUNTIME/delmenu.vim " Delete menu
+set langmenu=ru_RU.UTF-8
+source $VIMRUNTIME/menu.vim
+
+" Russian keymaps in Normal Mode
+set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+set spell spelllang=ru,en " Check spelling
+"------------------------------------------------------------------------------------
+
+"------------------------------------------------------------------------------------
+" Colors and themes
+"------------------------------------------------------------------------------------
+set guifont=DejaVu_Sans_Mono:h14 "Set GUI font
+set t_Co=256
+set background=dark
+
+" colorscheme monokai
+" colorscheme nord
+" colorscheme palenight
+colorscheme tender
+
+"------------------------------------------------------------------------------------
+" Window navigation
+"------------------------------------------------------------------------------------
+nnoremap <A-Down> <C-W><C-J>
+nnoremap <A-Up> <C-W><C-K>
+nnoremap <A-Right> <C-W><C-L>
+nnoremap <A-Left> <C-W><C-H>
+
+nnoremap <A-j> <C-W><C-J>
+nnoremap <A-k> <C-W><C-K>
+nnoremap <A-l> <C-W><C-L>
+nnoremap <A-h> <C-W><C-H>
+
+" Add ; to the end of line after <Enter>
+inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
+
+" Toggle highlight the line with '\l'
+nnoremap <silent> <Leader>h ml:execute 'match Search /\%'.line('.').'l/'<CR>
 
 " '# \o' to add blank lines below
 nnoremap <silent> <Leader>o :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>\
 
 " '# \O' to add blank lines above
 nnoremap <silent> <Leader>O :<C-u>put!=repeat(nr2char(10),v:count)<Bar>execute "']+1"<CR>
-"------------------------------------------------------------------------------------
 
+highlight ExtraWhitespace ctermbg=gray guibg=gray " Show trailing \s and \t
+match ExtraWhitespace /\s\+$/ " Show trailing whitespace:
+match ExtraWhitespace /\s\+$\| \+\ze\t/ " Show trailing whitespace and spaces before a tab:
+match ExtraWhitespace /^\t*\zs \+/ " Show spaces used for indenting (so you use only tabs for indenting).
 
-
-"------------------------------------------------------------------------------------
-" Indents and filetypes
-"------------------------------------------------------------------------------------
-set tabstop=2
-set softtabstop=0
-set shiftwidth=2
-
-" set autoindent
-
-filetype on
-filetype plugin on
-syntax on
-
-set smartindent
-
-" I prefer \t instead of \s !!!
-set noexpandtab
-set copyindent
-set preserveindent
-retab!
-
-
-" Turn backspace on
-set backspace=indent,eol,start
-
-
-" Show trailing \s and \t
-highlight ExtraWhitespace ctermbg=gray guibg=gray
-" Show trailing whitespace:
-match ExtraWhitespace /\s\+$/
-" Show trailing whitespace and spaces before a tab:
-match ExtraWhitespace /\s\+$\| \+\ze\t/
-" Show tabs that are not at the start of a line:
-"match ExtraWhitespace /[^\t]\zs\t\+/
-" Show spaces used for indenting (so you use only tabs for indenting).
-match ExtraWhitespace /^\t*\zs \+/
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Cyrillic
-"------------------------------------------------------------------------------------
-set termencoding=utf-8
-set encoding=utf-8
-scriptencoding utf-8
-
-"Menu
-source $VIMRUNTIME/delmenu.vim
-set langmenu=ru_RU.UTF-8
-source $VIMRUNTIME/menu.vim
-
-
-" Russian keymaps in Normal Mode
-set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-" Check spelling
-set spell spelllang=ru,en
-set spellfile=~/vimfiles/my-spelling.add
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Colors and themes
-"------------------------------------------------------------------------------------
-"Set GUI font:
-set guifont=DejaVu_Sans_Mono:h14
-
-let python_hightlight_all=1
-set t_Co=256
-
-set background=light
-colorscheme monokai
-
-set list
-
-"------------------------------------------------------------------------------------
-" Non-printable symbols
-"------------------------------------------------------------------------------------
-set showbreak=↪
-set listchars=tab:▸\ ,trail:✖,precedes:←,extends:→,eol:↲,nbsp:✖,
-" set listchars=tab:▸\ ,trail:␣,precedes:←,extends:→,eol:↲,nbsp:␣,
-" set listchars=eol:~,tab:▸\ ,trail:■,extends:>,precedes:<,eol:¶,
-
-set selection=inclusive
-
-"------------------------------------------------------------------------------------
-" Window navigation
-"------------------------------------------------------------------------------------
-nnoremap <C-Down> <C-W><C-J>
-nnoremap <C-Up> <C-W><C-K>
-nnoremap <C-Right> <C-W><C-L>
-nnoremap <C-Left> <C-W><C-H>
-
-
-nnoremap <A-j> <C-W><C-J>
-nnoremap <A-k> <C-W><C-K>
-nnoremap <A-l> <C-W><C-L>
-nnoremap <A-h> <C-W><C-H>
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Files
-"------------------------------------------------------------------------------------
-" Autowrite after :make and :next
-set autowrite
-
-set noswapfile
-
-set nobackup
-set nowritebackup
-
-" Set executable on Unix
-function MakeExecutableFunc()
-	if getline(1) =~ "^#!"
-		if getline(1) =~ "bin/"
-			silent !chmod a+x <afile>
-		endif
-	endif
-endfunction
-
-au BufWritePost * call MakeExecutableFunc()
-
-"Use system clipboard
-set clipboard=unnamed
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Auto
-"------------------------------------------------------------------------------------
-
-" Parenthesis
-" ino \" \""<left>
-" ino ' ''<left>
-" ino ( ()<left>
-" ino [ []<left>
-" ino { {}<left>
-" ino {<CR> {<CR>}<ESC>O
-" ino {;<CR> {<CR>};<ESC>O
-
-" abbr imp import
-" abbr #i #include
-" abbr #d #define
-" abbr dou double
-" abbr fl float
-" abbr pr print
-" abbr raw raw_input(
-" abbr \i \item
-" abbr \b \begin{
-" abbr \e \end{
-" abbr \u \underline{\hspace{2cm}}
-" abbr \s {\slash}
-
-
-" Add ; to the end of line after <Enter>
-inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Good not used ideas
-"------------------------------------------------------------------------------------
-
-"Cd to the D disk
-"cd D:/Others
-
-" Open .pdf with :Rpdf command
-"command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
-"command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
-
-" Turn color for all words matches the cursor word
-"autocmd CursorMoved * silent! exe printf("match Search /\\<%s\\>/", expand('<cword>'))
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Tabs
-"------------------------------------------------------------------------------------
-" nmap <C-t> :tabnew<CR>
-"imap <C-t> <Esc>:tabnew<CR>a
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Foldings
-"------------------------------------------------------------------------------------
-" Column for + symbols
-"set foldcolumn=1
-
-"Fold programs
-"setlocal foldmethod=syntax
-"Remember folding after closing
-augroup AutoSaveFolds
-	autocmd BufWinEnter *.* silent! loadview
-augroup END
-"------------------------------------------------------------------------------------
-
-
-
-"------------------------------------------------------------------------------------
-"####################################################################################
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" Help files for different types
-"------------------------------------------------------------------------------------
-"Open help file for Vim
-function MyHelp(FileType)
-	execute ":60vs +/HELP:\\ ".a:FileType " $HOME/vimfiles/help/help.md"
-endfunction
-
-
-function HELP(...)
-	if a:0 < 1
-		let FileType = &ft
-	else
-		let FileType = a:1
-	endif
-
-	echo "Filetype =" FileType
-	call MyHelp(FileType)
-
-endfunction
-
-command! -nargs=* HELP call HELP(<f-args>)
-
-au BufReadPost,BufNewFile help.txt set ft=help
-"------------------------------------------------------------------------------------
-
-
-"------------------------------------------------------------------------------------
-" File schemes
-"------------------------------------------------------------------------------------
-autocmd BufRead,BufNewFile *.tex set filetype=tex
-
-" au BufNewFile *.tex 0r $HOME/vimfiles/templates/template.tex
-" au BufNewFile *.py 0r $HOME/vimfiles/templates/template.py
-" au BufNewFile *.c 0r $HOME/vimfiles/templates/template.c
-
-"au BufNewFile *.tex r ~/.vim/skeleton.tex
-"au BufNewFile *.py silent! r ~/.vim/skeleton.py
-"au BufNewFile *.java silent! r ~/.vim/skeleton.java
-
-
-" Cut \s in the line end
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
-autocmd BufWritePre *.c normal m`:%s/\s\+$//e ``
-autocmd BufWritePre *.tex normal m`:%s/\s\+$//e ``
-
-" Cut \s in the line beggining
-autocmd BufWritePre *.py normal m`:%s/^\s\+ ``
-autocmd BufWritePre *.c normal m`:%s/^\s\+ ``
-autocmd BufWritePre *.tex normal m`:%s/^\s\+ ``
-
-"autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-"------------------------------------------------------------------------------------
-
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-g>u\<Tab>"
 
 "------------------------------------------------------------------------------------
 " Compilations commands
 "------------------------------------------------------------------------------------
+command! ClearRegisters for i in range(34,122) | silent! call setreg(nr2char(i), []) | endfor "Clear registers
 
 command LaTeX execute "write | !pdflatex -interaction=batchmode %"
+command LaTeXFULL execute "write | !pdflatex %"
 command LCLEAR execute "!del *.aux *.log"
 
-"command Java execute "write | !javac %"
 
-"LÖVE
 nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
 command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
-
 command BUILDOPENCV execute '!start cmd /c "$HOME/vimfiles/compiler/buildOpenCV.bat" % & pause'
-
 command BUILD execute '!start cmd /c "$HOME/vimfiles/compiler/buildC.bat" % & pause'
-
 command BUILDARDUINO execute '!start cmd /c "$HOME/vimfiles/compiler/buildArduino.bat" % & pause'
-
 command EXE execute '!start cmd /c %:r.exe & pause'
-"------------------------------------------------------------------------------------
-
 
 command VTerminal :vs| :term ++curwin
-
 command EXPLORER :Lex! 40
-
-command EDITVIMRC execute ":vs $HOME/_vimrc"
-
+command EDITVIMRC execute ":e $HOME/_vimrc"
 command COPYVIMRC execute ':!copy '.$HOME.'\_vimrc '.$HOME.'\vimfiles\_vimrc'
-
-
-"------------------------------------------------------------------------------------
-" Something new and testing
-"------------------------------------------------------------------------------------
-
-" [ popup menu ]
-set pumheight=20 " popup menu height. 0: long
-
+command READVIMRC :source $MYVIMRC
 command ClearTrailingSpaces :%s/\s\+$//e
 
-command READVIMRC :source $MYVIMRC
+map <leader>tt :TlistToggle<CR>
+
+
+" Update the modification date on VIMRC before it is closed
+autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.%Y %H:%M"))"
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+autocmd GUIEnter * set visualbell t_vb=
+autocmd BufRead,BufNewFile *.tex set filetype=tex
+" autocmd BufWritePre *.py normal m`:%s/^\s\+ `` " Clear spaces at the beginning
