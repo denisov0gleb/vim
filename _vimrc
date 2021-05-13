@@ -1,4 +1,4 @@
-" Last update: 13.05.2021 16:56
+" Last update: 13.05.2021 17:22
 "------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
@@ -27,6 +27,7 @@ set listchars=tab:▸\ ,trail:✖,precedes:←,extends:→,eol:↲,nbsp:✖,
 set number
 set nobackup
 set noerrorbells visualbell t_vb= " Turn off the sound in Windows
+autocmd GUIEnter * set visualbell t_vb= " No bell sound
 set noexpandtab
 set noshowmode " Don't show statusline
 set noswapfile
@@ -111,22 +112,38 @@ let g:Tlist_File_Fold_Auto_Close = 1
 
 Plugin 'vim-scripts/AutoComplPop' " Auto popup menu for compete words
 
+Plugin 'mbbill/undotree'
+if has("persistent_undo")
+	let target_path = expand('$HOME/vimfiles/.undodir')
+
+	if !isdirectory(target_path)
+		call mkdir(target_path, "p", 0700)
+	endif
+
+	let &undodir=target_path
+	set undofile
+endif
+
 "------------------------------------------------------------------------------------
 " Colorschemes
 "------------------------------------------------------------------------------------
 Plugin 'https://github.com/drewtempelmeyer/palenight.vim'
 Plugin 'https://github.com/arcticicestudio/nord-vim'
 Plugin 'jacoborus/tender.vim'
+"------------------------------------------------------------------------------------
 
 call vundle#end()
 filetype plugin indent on
 syntax on
+" End of Plugins
+"------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
-" Detect file type
+" Detect filetype
 "------------------------------------------------------------------------------------
-autocmd BufNewFile,BufRead *.gcode set syntax=gcode
-autocmd BufNewFile,BufRead *.gcode set syntax=gcode
+autocmd BufNewFile,BufRead *.gcode set syntax=gcode ft=gcode
+autocmd BufNewFile,BufRead *.scad set syntax=openscad ft=openscad
+autocmd BufNewFile,BufRead *.tex set syntax=tex filetype=tex
 
 "------------------------------------------------------------------------------------
 " Status line
@@ -201,38 +218,37 @@ set background=dark
 " colorscheme nord
 " colorscheme palenight
 colorscheme tender
+"------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
-" Window navigation
+" Mappings
 "------------------------------------------------------------------------------------
-nnoremap <A-Down> <C-W><C-J>
-nnoremap <A-Up> <C-W><C-K>
-nnoremap <A-Right> <C-W><C-L>
-nnoremap <A-Left> <C-W><C-H>
+" Windows navigation
+nmap <A-Down> <C-W><C-J>
+nmap <A-Up> <C-W><C-K>
+nmap <A-Right> <C-W><C-L>
+nmap <A-Left> <C-W><C-H>
 
-nnoremap <A-j> <C-W><C-J>
-nnoremap <A-k> <C-W><C-K>
-nnoremap <A-l> <C-W><C-L>
-nnoremap <A-h> <C-W><C-H>
+nmap <A-j> <C-W><C-J>
+nmap <A-k> <C-W><C-K>
+nmap <A-l> <C-W><C-L>
+nmap <A-h> <C-W><C-H>
+
+nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
+map <leader>tt :TlistToggle<CR>
 
 " Add ; to the end of line after <Enter>
-inoremap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
-
-" Toggle highlight the line with '\l'
-nnoremap <silent> <Leader>h ml:execute 'match Search /\%'.line('.').'l/'<CR>
+imap <expr> ;<cr> getline('.')[-1:] == ';' ? '\<Nop>' : '<End>;'
 
 " '# \o' to add blank lines below
-nnoremap <silent> <Leader>o :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>\
+nmap <silent> <Leader>o :<C-u>put =repeat(nr2char(10),v:count)<Bar>execute "'[-1"<CR>\
 
 " '# \O' to add blank lines above
-nnoremap <silent> <Leader>O :<C-u>put!=repeat(nr2char(10),v:count)<Bar>execute "']+1"<CR>
+nmap <silent> <Leader>O :<C-u>put!=repeat(nr2char(10),v:count)<Bar>execute "']+1"<CR>
 
-highlight ExtraWhitespace ctermbg=gray guibg=gray " Show trailing \s and \t
-match ExtraWhitespace /\s\+$/ " Show trailing whitespace:
-match ExtraWhitespace /\s\+$\| \+\ze\t/ " Show trailing whitespace and spaces before a tab:
-match ExtraWhitespace /^\t*\zs \+/ " Show spaces used for indenting (so you use only tabs for indenting).
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-g>u\<Tab>"
+" Connect Tab with snippets and autocomplite
+imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-g>u\<Tab>"
+"------------------------------------------------------------------------------------
 
 "------------------------------------------------------------------------------------
 " Compilations commands
@@ -243,8 +259,6 @@ command LaTeX execute "write | !pdflatex -interaction=batchmode %"
 command LaTeXFULL execute "write | !pdflatex %"
 command LCLEAR execute "!del *.aux *.log"
 
-
-nmap <C-L> :!start "C:\Program Files\LOVE\love.exe" "%:p:h"<cr>
 command LOVECONSOLE  execute ':w' '!start "C:\Program Files\LOVE\love.exe" "%:p:h" --console'
 command BUILDOPENCV execute '!start cmd /c "$HOME/vimfiles/compiler/buildOpenCV.bat" % & pause'
 command BUILD execute '!start cmd /c "$HOME/vimfiles/compiler/buildC.bat" % & pause'
@@ -257,14 +271,7 @@ command EDITVIMRC execute ":e $HOME/_vimrc"
 command COPYVIMRC execute ':!copy '.$HOME.'\_vimrc '.$HOME.'\vimfiles\_vimrc'
 command READVIMRC :source $MYVIMRC
 command ClearTrailingSpaces :%s/\s\+$//e
-
-map <leader>tt :TlistToggle<CR>
-
+"------------------------------------------------------------------------------------
 
 " Update the modification date on VIMRC before it is closed
 autocmd! bufwritepre $MYVIMRC call setline(1, '" Last update: '.strftime("%d.%m.%Y %H:%M"))"
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-autocmd GUIEnter * set visualbell t_vb=
-autocmd BufRead,BufNewFile *.tex set filetype=tex
-" autocmd BufWritePre *.py normal m`:%s/^\s\+ `` " Clear spaces at the beginning

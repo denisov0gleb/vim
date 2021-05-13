@@ -1,4 +1,5 @@
-/bundle/*
 .netrwhist
 *.dll
 *.lib
+/bundle/*
+/.undodir/
